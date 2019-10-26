@@ -31,7 +31,7 @@ namespace Insurance.Policies.Test.Controllers
             var userExpected = new User()
             {
                 UserId = 1,
-                Name = "camilo.orrego",
+                Username = "camilo.orrego",
                 Password = "camilo1234"
             };
 

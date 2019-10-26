@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Insurance.Policies.Domain.Interfaces
 {
-   public interface IUserService
+   public interface IUserRepository
     {
-        Task<User> ValidateUser(string username, string password);
+        Task<User> GetUserByUsername(string username);
     }
 }
