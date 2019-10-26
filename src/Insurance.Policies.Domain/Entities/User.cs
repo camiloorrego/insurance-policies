@@ -1,4 +1,8 @@
-﻿namespace Insurance.Policies.Domain.Entities
+﻿using Insurance.Policies.Utilities;
+using System;
+using System.Collections.Generic;
+
+namespace Insurance.Policies.Domain.Entities
 {
     public class User
     {
@@ -7,7 +11,18 @@
         public string Password { get; set; }
         public string CreateToken()
         {
-            return "";
+            Dictionary<string, object> points = new Dictionary<string, object>
+            {
+                { "Name", Name },
+                { "Expired",  DateTime.Now.AddMinutes(30).ToString("dd/MM/yyyy HH:mm")}
+            };
+
+            //var  a = DateTime.Parse(points["Expired"].ToString());
+
+            var json = Serializer.Serialize(points);
+            return Decoder.Encode(json);
         }
+
+
     }
 }

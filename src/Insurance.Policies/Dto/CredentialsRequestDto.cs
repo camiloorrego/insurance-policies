@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Insurance.Policies.Dto
 {
-    public class CredentialsDto
+    public class CredentialsRequestDto
     {
         public string User { get; set; }
         public string Password { get; set; }

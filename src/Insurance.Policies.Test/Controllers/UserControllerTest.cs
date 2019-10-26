@@ -22,26 +22,34 @@ namespace Insurance.Policies.Test.Controllers
         [Fact]
         public async void ValidateLogin()
         {
-            CredentialsDto request = new CredentialsDto()
+            CredentialsRequestDto request = new CredentialsRequestDto()
             {
                 User = "camilo.orrego",
                 Password = "camilo1234"
             }; ;
 
-            var expected = new User()
+            var userExpected = new User()
             {
+                UserId = 1,
                 Name = "camilo.orrego",
                 Password = "camilo1234"
             };
 
-            _userService.Setup(x => x.ValidateUser(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(expected);
+            var expected = new CredentialsResponseDto()
+            {
+                Token = userExpected.CreateToken()
+            };
+
+            _userService.Setup(x => x.ValidateUser(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(userExpected);
 
             // Act
             var result = await _usersController.Post(request);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Same(expected, okResult.Value);
+
+
+            Assert.Equal(expected.Token, (okResult.Value as CredentialsResponseDto).Token);
         }
     }
 }
