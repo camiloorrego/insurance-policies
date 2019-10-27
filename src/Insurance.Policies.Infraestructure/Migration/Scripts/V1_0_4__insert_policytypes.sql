@@ -1,0 +1,21 @@
+﻿INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Travel insurance‎',25);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Accident insurance',45);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Assumption reinsurance',60);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Aviation insurance',85);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Prize indemnity insurance',45);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Professional liability insurance',40);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Property insurance',60);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Health insurance',55);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Home insurance',60);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Pet insurance‎',25);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Property insurance',80);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Captive insurance',10);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Casualty insurance',25);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Catastrophe bond',30);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Chargeback insurance',45);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Collateral protection insurance',65);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Condo insurance',85);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Contents insurance',70);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Credit insurance',60);
+INSERT INTO [dbo].[PolicyTypes] ([Name] ,[Coverage]) VALUES ('Critical illness insurance',15);
+GO

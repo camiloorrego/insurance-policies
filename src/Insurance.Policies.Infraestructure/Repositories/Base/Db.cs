@@ -96,9 +96,9 @@ namespace Insurance.Policies.Infraestructure.Repositories.Base
                 var migrater = MigrationFactory.Build(Connection);
                 migrater.ExecuteCommand();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new Exception("Database migration failed.");
+                throw new Exception("Database migration failed."+ e.Message);
             }
         }
 

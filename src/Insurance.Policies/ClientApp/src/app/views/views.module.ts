@@ -7,9 +7,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ListInsuranceClientsComponent } from './core/list-insurance-clients/list-insurance-clients.component';
+import { AddInsurancePolicesComponent } from './core/add-insurance-polices/add-insurance-polices.component';
+import { ListInsurancePoliciesComponent } from './core/list-insurance-policies/list-insurance-policies.component';
 
 @NgModule({
-  declarations: [LoginComponent, ListInsuranceClientsComponent],
+  declarations: [LoginComponent, ListInsuranceClientsComponent, AddInsurancePolicesComponent, ListInsurancePoliciesComponent],
   imports: [
     CommonModule,
     FlexLayoutModule,

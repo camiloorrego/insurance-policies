@@ -19,5 +19,15 @@
   "insurance-clients": {
     "title": "Lista pólizas de clientes",
     "add": "Añadir póliza"
+  },
+  "add-insurance-policies": {
+    "title": "Añadir pólizas",
+    "name": "Nombre",
+    "description": "Descripción",
+    "policytype": "Tipo póliza",
+    "date": "Fecha vigencia",
+    "terms": "Periodos",
+    "cost": "Precio",
+    "risktype": "Tipo riesgo"
   }
 }

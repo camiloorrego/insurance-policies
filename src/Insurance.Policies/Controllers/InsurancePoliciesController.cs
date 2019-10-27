@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Insurance.Policies.Domain.Interfaces;
 using Insurance.Policies.Domain.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -15,10 +16,7 @@ namespace Insurance.Policies.Controllers
     [ApiController]
     public class InsurancePoliciesController : ControllerBase
     {
-        public InsurancePoliciesController()
-        {
-            
-        }
+       
         // GET: api/InsurancePolicies
         [HttpGet]
         public IEnumerable<string> Get()

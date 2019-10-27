@@ -1,0 +1,87 @@
+<div class="view-add-insurance-policies">
+
+
+
+  <div class="header-container">
+    <div class="header-title">
+      {{'add-insurance-policies.title' | translate}}
+    </div>
+  </div>
+
+
+  <form #myForm="ngForm" #formDirective="ngForm" [formGroup]="formAdd" class="form-add">
+
+    <div class="container-form" fxLayout="row" fxLayoutAlign="center center">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="{{'add-insurance-policies.name' | translate}}" formControlName="name" required
+          autocomplete="off">
+        <mat-error>{{'common.required'| translate}}</mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field class="full-width">
+        <input type="text" placeholder="{{'add-insurance-policies.policytype'|translate}}" aria-label="policytype"
+          matInput formControlName="policytype" [matAutocomplete]="autopolicytype" required>
+        <mat-autocomplete #scr #autopolicytype="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of filteredPolicyTypes | async" [value]="option">
+            {{option.complete}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error>
+          {{'common.required' | translate}}
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="container-form" fxLayout="row" fxLayoutAlign="center center">
+      <mat-form-field class="full-width">
+        <input matInput id="dpDate" formControlName="date" [matDatepicker]="picker" [min]="minDate" required
+          placeholder="{{'add-insurance-policies.date' | translate}}" readonly (click)="picker.open()">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker (selectedChanged)="onSelectedDate($event)" disabled="false"></mat-datepicker>
+        <mat-error>{{'common.required'| translate}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="{{'add-insurance-policies.terms' | translate}}" formControlName="terms" required
+          autocomplete="off">
+        <mat-error>{{'common.required'| translate}}</mat-error>
+      </mat-form-field>
+
+    </div>
+
+
+    <div class="container-form" fxLayout="row" fxLayoutAlign="center center">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="{{'add-insurance-policies.cost' | translate}}" formControlName="cost" required
+          autocomplete="off">
+        <mat-error>{{'common.required'| translate}}</mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="{{'add-insurance-policies.risktype' | translate}}" formControlName="risktype"
+          required autocomplete="off">
+        <mat-error>{{'common.required'| translate}}</mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="container-form" fxLayout="row" fxLayoutAlign="center center">
+      <mat-form-field class="full-width">
+        <textarea maxlength="300" matInput placeholder="{{'add-insurance-policies.description' | translate}}"
+          formControlName="description" required></textarea>
+        <mat-error>
+          {{'common.required' | translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="button-next" fxLayout="row" fxLayoutAlign="end center ">
+      <button mat-raised-button color="primary" (click)="add()" [disabled]="formAdd.invalid">
+        {{'common.next' | translate}}</button>
+    </div>
+
+  </form>
+</div>

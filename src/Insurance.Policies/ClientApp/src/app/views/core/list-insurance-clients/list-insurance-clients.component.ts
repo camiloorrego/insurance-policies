@@ -45,17 +45,7 @@ export class ListInsuranceClientsComponent implements OnInit {
   }
 
   add() {
-    // const dialogRef = this.dialog.open(WorkFlowComponent,
-    //   {
-    //     width: '95%',
-    //     disableClose: true
-    //   });
-
-    // dialogRef.afterClosed().subscribe(async (result: any) => {
-    //   if (result) {
-    //     this.getWfs();
-    //   }
-    // });
+    this.router.navigate(['add-insurance-policies']);
   }
 
 }
