@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Insurance.Policies.Domain.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Insurance.Policies.Controllers
 {
@@ -13,6 +15,11 @@ namespace Insurance.Policies.Controllers
     [ApiController]
     public class InsurancePoliciesController : ControllerBase
     {
+        private readonly IOptions<AppSettings> _settings;
+        public InsurancePoliciesController(IOptions<AppSettings> settings)
+        {
+            _settings = settings;
+        }
         // GET: api/InsurancePolicies
         [HttpGet]
         public IEnumerable<string> Get()

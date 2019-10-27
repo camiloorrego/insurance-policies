@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
@@ -25,7 +26,6 @@ namespace Insurance.Policies
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppSettings>(Configuration);
@@ -52,9 +52,6 @@ namespace Insurance.Policies
                 .AllowCredentials();
             }));
 
-            //var appSettings = appSettingsSection.Get<AppSettings>();
-            //var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-
             var key = Encoding.ASCII.GetBytes(Configuration["authSettings:key"]);
             services.AddAuthentication(x =>
             {
@@ -71,11 +68,23 @@ namespace Insurance.Policies
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidateLifetime= true,
+                    ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero,
                     ValidIssuer = Configuration["authSettings:validIssuer"],
                     ValidAudience = Configuration["authSettings:validAudience"]
 
+                };
+                x.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = async (ctx) =>
+                    {
+                        var db = ctx.HttpContext.RequestServices.GetRequiredService<IOptions<AppSettings>>();
+                        var user = ctx.Principal.FindFirst("UserId");
+                        if (user != null)
+                        {
+                            db.Value.UserId = int.Parse(user.Value);
+                        }
+                    }
                 };
             });
 
@@ -108,9 +117,9 @@ namespace Insurance.Policies
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
-            
+
             db.MigrateDataBase();
-            
+
             //app.UseSpa(spa =>
             //{
             //    // To learn more about options for serving an Angular SPA from ASP.NET Core,
@@ -123,9 +132,6 @@ namespace Insurance.Policies
             //        spa.UseAngularCliServer(npmScript: "start");
             //    }
             //});
-
-
-
         }
     }
 }

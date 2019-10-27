@@ -8,6 +8,6 @@ namespace Insurance.Policies.Domain.Settings
     {
         public DataBaseSettings DataBaseSettings { get; set; }
         public AuthSettings AuthSettings { get; set; }
-
+        public int UserId { get; set; }
     }
 }

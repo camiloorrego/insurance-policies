@@ -22,9 +22,10 @@ namespace Insurance.Policies.Domain.Entities
                 Issuer = issuer,
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim("Username", Username)
+                    new Claim("Username", Username),
+                    new Claim("UserId", UserId.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddSeconds(30),
+                Expires = DateTime.UtcNow.AddMinutes(30),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keyDecoded), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
