@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -40,10 +41,14 @@ namespace Insurance.Policies
             //Services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPolicyService, PolicyService>();
+            services.AddScoped<IPolicyTypeService, PolicyTypeService>();
+            services.AddScoped<IRiskTypeService, RiskTypeService>();
 
             //Repos
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPolicyRepository, PolicyRepository>();
+            services.AddScoped<IPolicyTypeRepository, PolicyTypeRepository>();
+            services.AddScoped<IRiskTypeRepository, RiskTypeRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -130,18 +135,18 @@ namespace Insurance.Policies
 
             db.MigrateDataBase();
 
-            //app.UseSpa(spa =>
-            //{
-            //    // To learn more about options for serving an Angular SPA from ASP.NET Core,
-            //    // see https://go.microsoft.com/fwlink/?linkid=864501
+            app.UseSpa(spa =>
+            {
+                // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                // see https://go.microsoft.com/fwlink/?linkid=864501
 
-            //    spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = "ClientApp";
 
-            //    if (env.IsDevelopment())
-            //    {
-            //        spa.UseAngularCliServer(npmScript: "start");
-            //    }
-            //});
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
+            });
         }
     }
 }

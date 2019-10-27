@@ -1,5 +1,5 @@
-﻿INSERT INTO [dbo].[RiskTypes]([Name])VALUES('bajo');
-INSERT INTO [dbo].[RiskTypes]([Name])VALUES('medio');
-INSERT INTO [dbo].[RiskTypes]([Name])VALUES('medio-alto');
-INSERT INTO [dbo].[RiskTypes]([Name])VALUES('alto');
+﻿INSERT INTO [dbo].[RiskTypes]([Name])VALUES('Bajo');
+INSERT INTO [dbo].[RiskTypes]([Name])VALUES('Medio');
+INSERT INTO [dbo].[RiskTypes]([Name])VALUES('Medio-alto');
+INSERT INTO [dbo].[RiskTypes]([Name])VALUES('Alto');
 GO

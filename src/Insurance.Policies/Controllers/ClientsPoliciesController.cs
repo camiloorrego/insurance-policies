@@ -1,11 +1,13 @@
 ﻿using Insurance.Policies.Domain.Interfaces;
 using Insurance.Policies.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
 namespace Insurance.Policies.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientsPoliciesController : ControllerBase

@@ -8,13 +8,16 @@
     "login": "Iniciar sesión",
     "user": "Usuario",
     "password": "Contraseña",
-    "accept": "ACEPTAR"
+    "accept": "ACEPTAR",
+    "match": "Debe seleccionar un registro válido",
+    "pattern": "Formato inválido"
   },
   "error": {
     "credentialsinvalid": "",
     "U404": "Usuario no existe",
     "U401": "Usuario y contraseña incorrectos",
     "common": "No fue posible completar la solicitud"
+    
   },
   "insurance-clients": {
     "title": "Lista pólizas de clientes",

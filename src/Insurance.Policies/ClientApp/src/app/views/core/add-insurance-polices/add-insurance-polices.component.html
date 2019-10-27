@@ -10,7 +10,7 @@
 
   <form #myForm="ngForm" #formDirective="ngForm" [formGroup]="formAdd" class="form-add">
 
-    <div class="container-form" fxLayout="row" fxLayoutAlign="center center">
+    <div class="container-form" fxLayout.gt-sm="row" fxLayout="column" fxLayoutAlign="center center">
       <mat-form-field class="full-width">
         <input matInput placeholder="{{'add-insurance-policies.name' | translate}}" formControlName="name" required
           autocomplete="off">
@@ -26,14 +26,13 @@
             {{option.complete}}
           </mat-option>
         </mat-autocomplete>
-        <mat-error>
-          {{'common.required' | translate}}
-        </mat-error>
+        <mat-error *ngIf="f.policytype.errors?.required"> {{'common.required' | translate}} </mat-error>
+        <mat-error *ngIf="f.policytype.errors?.match"> {{'common.match' | translate}} </mat-error>
       </mat-form-field>
 
     </div>
 
-    <div class="container-form" fxLayout="row" fxLayoutAlign="center center">
+    <div class="container-form" fxLayout.gt-sm="row" fxLayout="column" fxLayoutAlign="center center">
       <mat-form-field class="full-width">
         <input matInput id="dpDate" formControlName="date" [matDatepicker]="picker" [min]="minDate" required
           placeholder="{{'add-insurance-policies.date' | translate}}" readonly (click)="picker.open()">
@@ -45,29 +44,37 @@
       <mat-form-field class="full-width">
         <input matInput placeholder="{{'add-insurance-policies.terms' | translate}}" formControlName="terms" required
           autocomplete="off">
-        <mat-error>{{'common.required'| translate}}</mat-error>
+          <mat-error *ngIf="f.terms.errors?.required"> {{'common.required' | translate}} </mat-error>
+          <mat-error *ngIf="f.terms.errors?.pattern"> {{'common.pattern' | translate}} </mat-error>
       </mat-form-field>
 
     </div>
 
 
-    <div class="container-form" fxLayout="row" fxLayoutAlign="center center">
+    <div class="container-form" fxLayout.gt-sm="row" fxLayout="column" fxLayoutAlign="center center">
       <mat-form-field class="full-width">
         <input matInput placeholder="{{'add-insurance-policies.cost' | translate}}" formControlName="cost" required
           autocomplete="off">
-        <mat-error>{{'common.required'| translate}}</mat-error>
+          <mat-error *ngIf="f.cost.errors?.required"> {{'common.required' | translate}} </mat-error>
+          <mat-error *ngIf="f.cost.errors?.pattern"> {{'common.pattern' | translate}} </mat-error>
       </mat-form-field>
-
 
       <mat-form-field class="full-width">
-        <input matInput placeholder="{{'add-insurance-policies.risktype' | translate}}" formControlName="risktype"
-          required autocomplete="off">
-        <mat-error>{{'common.required'| translate}}</mat-error>
-      </mat-form-field>
+          <input type="text" placeholder="{{'add-insurance-policies.risktype'|translate}}" aria-label="risktype"
+            matInput formControlName="risktype" [matAutocomplete]="auto" required>
+          <mat-autocomplete #scr #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredRiskTypes | async" [value]="option">
+              {{option.complete}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error>
+            {{'common.required' | translate}}
+          </mat-error>
+        </mat-form-field>
 
     </div>
 
-    <div class="container-form" fxLayout="row" fxLayoutAlign="center center">
+    <div class="container-form" fxLayout.gt-sm="row" fxLayout="column" fxLayoutAlign="center center">
       <mat-form-field class="full-width">
         <textarea maxlength="300" matInput placeholder="{{'add-insurance-policies.description' | translate}}"
           formControlName="description" required></textarea>
@@ -77,9 +84,9 @@
       </mat-form-field>
     </div>
 
-    <div class="button-next" fxLayout="row" fxLayoutAlign="end center ">
+    <div class="button-add" fxLayout="row" fxLayoutAlign="end center ">
       <button mat-raised-button color="primary" (click)="add()" [disabled]="formAdd.invalid">
-        {{'common.next' | translate}}</button>
+        {{'common.accept' | translate}}</button>
     </div>
 
   </form>

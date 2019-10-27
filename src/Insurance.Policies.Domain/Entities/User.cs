@@ -25,7 +25,7 @@ namespace Insurance.Policies.Domain.Entities
                     new Claim("Username", Username),
                     new Claim("UserId", UserId.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(30),
+                Expires = DateTime.UtcNow.AddMinutes(120),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keyDecoded), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

@@ -1,5 +1,5 @@
 import { BaseService } from './../../../services/base.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
@@ -16,16 +16,15 @@ export class LoginComponent implements OnInit {
   public hidePassword = true;
   public isLoading = false;
   errorText = '';
+  url = '';
 
   constructor(
+    @Inject('BASE_URL') baseUrl: string,
     public router: Router,
     public dataProvider: DataProvider,
     public baseService: BaseService,
     public translate: TranslateService) {
-
-
-
-
+    this.url = baseUrl;
   }
 
   ngOnInit() {
@@ -33,7 +32,6 @@ export class LoginComponent implements OnInit {
       userForm: new FormControl('', Validators.required),
       passwordForm: new FormControl('', Validators.required)
     });
-
   }
 
   login() {
@@ -43,7 +41,8 @@ export class LoginComponent implements OnInit {
       password: this.f.passwordForm.value,
     };
 
-    this.baseService.post(body, 'https://localhost:44347/api/users/signin').subscribe((r: any) => {
+    this.baseService.post(body, `${this.url}api/users/signin`).subscribe((r: any) => {
+      this.dataProvider.token = r.access_token;
       this.router.navigate(['list-insurance-clients']);
 
     }, e => {

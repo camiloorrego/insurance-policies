@@ -1,10 +1,13 @@
+import { BaseService } from 'src/app/services/base.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable, forkJoin } from 'rxjs';
 import { DataProvider } from 'src/app/providers/data.provider';
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Router } from '@angular/router';
+import { forkJoin, Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { valueSelected } from 'src/app/utils/common';
 
 export const MY_FORMATS = {
   parse: {
@@ -29,30 +32,23 @@ export const MY_FORMATS = {
 })
 export class AddInsurancePolicesComponent implements OnInit {
   public formAdd: FormGroup;
-  @Input() item: any;
-  @Output() next: EventEmitter<any> = new EventEmitter();
-  @Output() complete: EventEmitter<any> = new EventEmitter();
-  currencies = [];
-  costCentres = [];
-  indicators = [];
-  requests = [];
-  shoppinggroups = [];
-  users = [];
+  risks = [];
+  types = [];
   minDate: any;
   onSelectedDate: any;
-  filteredCostCentre: Observable<any[]>;
+  filteredPolicyTypes: Observable<any[]>;
+  filteredRiskTypes: Observable<any[]>;
   editData: any = {};
 
-  constructor(private formBuilder: FormBuilder, public dataProvider: DataProvider, public router: Router) {
-
+  constructor(
+    private formBuilder: FormBuilder,
+    public dataProvider: DataProvider,
+    public router: Router,
+    public baseService: BaseService) {
   }
 
   ngOnInit() {
     this.createForm();
-
-    setTimeout(() => {
-      this.loadData();
-    });
   }
 
   backPage() {
@@ -62,74 +58,38 @@ export class AddInsurancePolicesComponent implements OnInit {
 
   loadData() {
 
-    // forkJoin(
-    //   this.generalService.getCurrencies(),
-    //   this.generalService.getCostCentres(),
-    //   this.generalService.getIndicators(),
-    //   this.generalService.getShoppingGroups(),
-    //   this.generalService.getRequests(),
-    // ).pipe(map((allResponses) => {
-    //   return {
-    //     currencies: allResponses[0],
-    //     costCentres: allResponses[1],
-    //     indicators: allResponses[2],
-    //     shoppinggroups: allResponses[3],
-    //     requests: allResponses[4],
-    //   };
-    // })).subscribe((response: any) => {
-    //   this.currencies = response.currencies;
-    //   this.costCentres = response.costCentres;
-    //   this.indicators = response.indicators;
-    //   this.shoppinggroups = response.shoppinggroups;
-    //   this.requests = response.requests;
+    forkJoin(
+      this.baseService.get('https://localhost:44347/api/PolicyTypes', true),
+      this.baseService.get('https://localhost:44347/api/RiskTypes', true),
+    ).pipe(map((allResponses) => {
+      return {
+        types: allResponses[0],
+        risks: allResponses[1]
+      };
+    })).subscribe((response: any) => {
+      this.risks = response.risks;
+      this.types = response.types;
 
-    //   if (this.item) {
-    //     this.setValues();
-    //   }
 
-    // this.f.costcentre.setValidators(Validators.compose([Validators.required, valueSelected(this.costCentres, 'id', 'id')]));
-    // this.f.concept.setValidators(Validators.compose([Validators.required, valueSelected(this.indicators, 'id', 'id')]));
-    // this.f.request.setValidators(Validators.compose([Validators.required, valueSelected(this.requests, 'id', 'id')]));
 
-    // this.filteredCostCentre = this.f.costcentre.valueChanges
-    //   .pipe(
-    //     startWith(this.editData.costCentre ? this.editData.costCentre : ''),
-    //     map(value => this._filter(value))
-    //   );
+      this.f.policytype.setValidators(Validators.compose([Validators.required, valueSelected(this.types, 'id', 'id')]));
+      this.f.risktype.setValidators(Validators.compose([Validators.required, valueSelected(this.risks, 'id', 'id')]));
 
-    // this.filteredConcept = this.f.concept.valueChanges
-    //   .pipe(
-    //     startWith(this.editData.indicator ? this.editData.indicator : ''),
-    //     map(value => this._filterIndicators(value))
-    //   );
+      this.filteredPolicyTypes = this.f.policytype.valueChanges
+        .pipe(
+          startWith(this.editData.policytype ? this.editData.policytype : ''),
+          map(value => this._filterTypes(value))
+        );
 
-    // this.filteredRequest = this.f.request.valueChanges
-    //   .pipe(
-    //     startWith(this.editData.request ? this.editData.request : ''),
-    //     map(value => this._filterRequests(value))
-    //   );
+      this.filteredRiskTypes = this.f.risktype.valueChanges
+        .pipe(
+          startWith(this.editData.risktype ? this.editData.risktype : ''),
+          map(value => this._filterRisks(value))
+        );
 
-    // });
-  }
 
-  loadUsers(costcentreId: number) {
-    // this.generalService.getUsers(costcentreId).subscribe((resp: any) => {
-    //   this.users = resp;
-    //   this.f.user.setValidators(Validators.compose([Validators.required, valueSelected(this.users, 'id', 'id')]));
 
-    //   if (this.item) {
-    //     this.editData.user = this.users.find((e: any) => e.id === this.item.personrequesting);
-    //     this.f.user.setValue(this.editData.user);
-    //     this.dataProvider.loading = false;
-    //   }
-
-    //   this.filteredUser = this.f.user.valueChanges
-    //     .pipe(
-    //       startWith(this.editData.user ? this.editData.user : ''),
-    //       map(value => this._filterUsers(value))
-    //     );
-    //   this.complete.emit();
-    // });
+    });
   }
 
   createForm() {
@@ -138,86 +98,59 @@ export class AddInsurancePolicesComponent implements OnInit {
       description: ['', Validators.required],
       policytype: ['', Validators.required],
       date: ['', Validators.required],
-      terms: ['', Validators.required],
-      cost: ['', null],
+      terms: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9]*$/)]) ],
+      cost: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9]*$/)])],
       risktype: ['', Validators.required]
     });
-  }
 
-  add() {
-    this.next.emit();
+    this.loadData();
   }
 
   setValues() {
 
-    this.editData.date = this.item.daterequest;
-    this.editData.currency = this.currencies.find((e: any) => e.id === this.item.money);
-    this.editData.costCentre = this.costCentres.find((e: any) => e.id === this.item.costcenter);
-    this.editData.indicator = this.indicators.find((e: any) => e.id === this.item.indicator);
-    this.editData.request = this.requests.find((e: any) => e.id === this.item.purchaserequest);
-    this.editData.shoppinggroup = this.shoppinggroups.find((e: any) => e.id === this.item.shoppinggroup);
+    // this.editData.date = this.item.daterequest;
+    // this.editData.currency = this.currencies.find((e: any) => e.id === this.item.money);
+    // this.editData.costCentre = this.costCentres.find((e: any) => e.id === this.item.costcenter);
 
 
-    this.f.date.setValue(new Date(this.editData.date));
+    // this.f.date.setValue(new Date(this.editData.date));
 
-    this.f.costcentre.setValue(this.editData.costCentre);
-    this.f.phone.setValue(this.item.phone);
-    this.f.request.setValue(this.editData.request);
-    this.f.concept.setValue(this.editData.indicator);
-    this.f.currency.setValue(this.editData.currency);
-    this.f.shoppinggroup.setValue(this.editData.shoppinggroup);
-    this.f.comment.setValue(this.item.comments);
+    // this.f.costcentre.setValue(this.editData.costCentre);
+    // this.f.phone.setValue(this.item.phone);
+    // this.f.request.setValue(this.editData.request);
+    // this.f.concept.setValue(this.editData.indicator);
+    // this.f.currency.setValue(this.editData.currency);
+    // this.f.shoppinggroup.setValue(this.editData.shoppinggroup);
+    // this.f.comment.setValue(this.item.comments);
 
-    this.f.negotiationtype.disable();
 
-    if (this.editData.typenegotiation.detail) {
-      // this.f.initialdate.setValue(new Date(this.item.startdate));
-      this.f.periods.setValue(this.item.numberperiods);
-
-      //  this.f.initialdate.disable();
-      this.f.periods.disable();
-    }
 
   }
 
   get f() { return this.formAdd.controls; }
 
-  private _filter(value: any): any[] {
+
+  private _filterRisks(value: any): any[] {
     if (value && value.id) {
-      this.loadUsers(value.id);
-      return this.costCentres.filter(option => option.id === value.id);
+      return this.risks.filter(option => option.id === value.id);
     } else {
-      this.f.user.reset();
-      this.users = [];
       const filterValue = value.toLowerCase();
-      return this.costCentres.filter(option => option.name.toLowerCase().includes(filterValue)).slice(0, 20);
+      return this.risks.map((item) => {
+        item.complete = `${item.id} - ${item.name}`;
+        return item;
+      }).filter(option => option.name.toLowerCase().includes(filterValue)).slice(0, 20);
     }
   }
 
-  private _filterUsers(value: any): any[] {
+  private _filterTypes(value: any): any[] {
     if (value && value.id) {
-      return this.users.filter(option => option.id === value.id);
+      return this.types.filter(option => option.id === value.id);
     } else {
       const filterValue = value.toLowerCase();
-      return this.users.filter(option => option.name.toLowerCase().includes(filterValue)).slice(0, 20);
-    }
-  }
-
-  private _filterIndicators(value: any): any[] {
-    if (value && value.id) {
-      return this.indicators.filter(option => option.id === value.id);
-    } else {
-      const filterValue = value.toLowerCase();
-      return this.indicators.filter(option => option.name.toLowerCase().includes(filterValue)).slice(0, 20);
-    }
-  }
-
-  private _filterRequests(value: any): any[] {
-    if (value && value.id) {
-      return this.requests.filter(option => option.id === value.id);
-    } else {
-      const filterValue = value.toLowerCase();
-      return this.requests.filter(option => option.name.toLowerCase().includes(filterValue)).slice(0, 20);
+      return this.types.map((item) => {
+        item.complete = `${item.id} - ${item.name}`;
+        return item;
+      }).filter(option => option.name.toLowerCase().includes(filterValue)).slice(0, 20);
     }
   }
 
