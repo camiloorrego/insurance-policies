@@ -11,6 +11,13 @@
     "accept": "ACEPTAR"
   },
   "error": {
-    "credentialsinvalid": "Usuario y/o contraseña incorrectos"
+    "credentialsinvalid": "",
+    "U404": "Usuario no existe",
+    "U401": "Usuario y contraseña incorrectos",
+    "common": "No fue posible completar la solicitud"
+  },
+  "insurance-clients": {
+    "title": "Lista pólizas de clientes",
+    "add": "Añadir póliza"
   }
 }

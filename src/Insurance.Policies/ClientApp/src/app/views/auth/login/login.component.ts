@@ -1,3 +1,4 @@
+import { BaseService } from './../../../services/base.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
@@ -12,18 +13,15 @@ import { DataProvider } from 'src/app/providers/data.provider';
 })
 export class LoginComponent implements OnInit {
   public form: FormGroup;
-  public legacyForm: FormGroup;
-  public invalid = false;
-  public isError = false;
-  public isAccessSchedule = false;
   public hidePassword = true;
-  public contentLogin: any;
-  public env = environment;
   public isLoading = false;
-
+  errorText = '';
 
   constructor(
-    public router: Router, public dataProvider: DataProvider, public translate: TranslateService) {
+    public router: Router,
+    public dataProvider: DataProvider,
+    public baseService: BaseService,
+    public translate: TranslateService) {
 
 
 
@@ -38,15 +36,32 @@ export class LoginComponent implements OnInit {
 
   }
 
-
-
-
-
   login() {
+    this.isLoading = true;
+    const body = {
+      username: this.f.userForm.value,
+      password: this.f.passwordForm.value,
+    };
+
+    this.baseService.post(body, 'https://localhost:44347/api/users/signin').subscribe((r: any) => {
+      this.router.navigate(['list-insurance-clients']);
+
+    }, e => {
+      if (e.error && e.error.error_code) {
+        this.errorText = this.translate.instant(`error.${e.error.error_code}`);
+      }
+
+      if (this.errorText === `error.${e.error.error_code}`) {
+        this.errorText = this.translate.instant(`error.common`);
+      }
+
+      this.isLoading = false;
+    });
 
   }
 
-
-
+  get f() {
+    return this.form.controls;
+  }
 
 }

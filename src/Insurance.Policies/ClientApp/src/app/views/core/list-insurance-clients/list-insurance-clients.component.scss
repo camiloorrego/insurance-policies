@@ -1,0 +1,73 @@
+.list-insurance-clients {
+  margin: 5px;
+  padding: 15px 15px 0 15px;
+
+  -webkit-box-shadow: 0px 0px 14px -7px #000000;
+  box-shadow: 0px 0px 14px -7px #000000;
+
+  .header-container {
+    padding: 15px;
+
+    .header-title {
+      font-size: 24px;
+    }
+
+
+  }
+
+  .button-add {
+    margin: 0 15px;
+
+    div {
+      text-transform: uppercase;
+    }
+
+  }
+
+  .container-table {
+    overflow: auto;
+    width: 100%;
+    max-height: calc(100vh - 160px);
+    border: solid 1px rgba(0, 0, 0, 0.12);
+  }
+
+  .table-insurance-clients {
+    width: 100%;
+
+    .mat-buttons {
+      mat-icon {
+        color: #757575
+      }
+
+      button {
+        margin: 0 5px;
+      }
+    }
+  }
+}
+
+.mat-menu-settings {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: 0;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  line-height: 48px;
+  height: 48px;
+  padding: 0 16px;
+  text-align: left;
+  text-decoration: none;
+  max-width: 100%;
+  position: relative;
+
+  .menu-settings>* {
+    margin: 0 5px;
+  }
+}

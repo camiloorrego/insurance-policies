@@ -9,12 +9,12 @@ CREATE TABLE [Polices] (
   [PoliceId] int PRIMARY KEY IDENTITY(1, 1),
   [Name] varchar(100),
   [Description] varchar(max),
-  [PolicyType] int,
+  [PolicyTypeId] int,
   [EffectiveDate] datetime,
   [CreateDate] datetime DEFAULT (GETDATE()),
   [Terms] int,
   [Cost] decimal(18,2),
-  [RiskType] int,
+  [RiskTypeId] int,
   [UserId] int
 )
 GO
@@ -55,10 +55,10 @@ CREATE TABLE [Rules] (
 )
 GO
 
-ALTER TABLE [Polices] ADD FOREIGN KEY ([PolicyType]) REFERENCES [PolicyTypes] ([PolicyTypeId])
+ALTER TABLE [Polices] ADD FOREIGN KEY ([PolicyTypeId]) REFERENCES [PolicyTypes] ([PolicyTypeId])
 GO
 
-ALTER TABLE [Polices] ADD FOREIGN KEY ([RiskType]) REFERENCES [RiskTypes] ([RiskTypeId])
+ALTER TABLE [Polices] ADD FOREIGN KEY ([RiskTypeId]) REFERENCES [RiskTypes] ([RiskTypeId])
 GO
 
 ALTER TABLE [Polices] ADD FOREIGN KEY ([UserId]) REFERENCES [Users] ([UserId])

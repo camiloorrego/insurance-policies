@@ -3,8 +3,8 @@
     <div fxFlex class="form-login" fxLayout="column" fxLayoutAlign="center center">
 
       <div class="header-title" fxLayout="column">
-          <img class="logo" src="assets/img/logo-login.png">
-      
+        <img class="logo" src="assets/img/logo-login.png">
+
         <div fxLayoutAlign="left left" class="title-1">{{'login.title' | translate}}</div>
         <div class="title-2">{{'login.sub-title' | translate}}</div>
       </div>
@@ -15,7 +15,7 @@
             <mat-error *ngIf="form.controls.userForm.errors?.required">
               {{'common.required' | translate}}
             </mat-error>
-      
+
           </mat-form-field>
           <mat-form-field class="field-password">
             <input matInput formControlName="passwordForm" placeholder="{{'common.password' | translate}}"
@@ -30,17 +30,16 @@
 
         </div>
         <div class="container-error">
-          <div class="error-login" *ngIf="invalid">
+          <div class="error-login" *ngIf="errorText!=''">
             <div>
-              {{'error.credentialsinvalid' | translate}}<br>
-              {{'common.tryagain' | translate}}
+              {{errorText}}<br>
             </div>
           </div>
-         
+
         </div>
         <div fxLayout="column" fxLayoutAlign="center left" class="div-button">
-          <button mat-raised-button class="login-button" (click)="login()" [disabled]="form.invalid">
-            <a *ngIf="!isLoading"> {{'common.login' | translate}}</a>
+          <button mat-raised-button color="primary" (click)="login()" [disabled]="form.invalid">
+            <div *ngIf="!isLoading">{{'common.login' | translate}}</div>
             <mat-spinner class="spinner" *ngIf="isLoading" [diameter]="24"></mat-spinner>
           </button>
         </div>
