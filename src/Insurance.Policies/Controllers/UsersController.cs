@@ -1,6 +1,7 @@
 ﻿using Insurance.Policies.Domain.Exceptions;
 using Insurance.Policies.Domain.Interfaces;
 using Insurance.Policies.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -19,7 +20,8 @@ namespace Insurance.Policies.Controllers
         }
 
         // POST: api/Users
-        [HttpPost]
+        [AllowAnonymous]
+        [HttpPost("signin")]
         public async Task<IActionResult> Post([FromBody] CredentialsRequestDto value)
         {
             try

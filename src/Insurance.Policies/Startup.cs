@@ -3,12 +3,15 @@ using Insurance.Policies.Domain.Services;
 using Insurance.Policies.Infraestructure.Interfaces;
 using Insurance.Policies.Infraestructure.Repositories;
 using Insurance.Policies.Infraestructure.Repositories.Base;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Text;
 
 namespace Insurance.Policies
 {
@@ -44,6 +47,31 @@ namespace Insurance.Policies
                 .AllowAnyOrigin()
                 .AllowCredentials();
             }));
+            
+            var key = Encoding.ASCII.GetBytes("CamiloOrregoKeyTokenInsurancePolices");
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime= true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidIssuer = "GAP",
+                    ValidAudience = "GAP"
+
+                };
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,15 +93,17 @@ namespace Insurance.Policies
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            app.UseAuthentication();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
-
+            
             db.MigrateDataBase();
-
+            
             //app.UseSpa(spa =>
             //{
             //    // To learn more about options for serving an Angular SPA from ASP.NET Core,

@@ -96,7 +96,7 @@ namespace Insurance.Policies.Infraestructure.Repositories.Base
             }
             catch (Exception)
             {
-                throw;
+                throw new Exception("Database migration failed.");
             }
         }
 

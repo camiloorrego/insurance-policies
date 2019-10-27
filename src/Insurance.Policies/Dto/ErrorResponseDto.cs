@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace Insurance.Policies.Dto
 {
+    [Serializable]
     public class ErrorResponseDto
     {
         [JsonProperty("error_code")]

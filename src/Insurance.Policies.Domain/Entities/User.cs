@@ -1,6 +1,8 @@
-﻿using Insurance.Policies.Utilities;
+﻿using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Insurance.Policies.Domain.Entities
 {
@@ -11,16 +13,22 @@ namespace Insurance.Policies.Domain.Entities
         public string Password { get; set; }
         public string CreateToken()
         {
-            Dictionary<string, object> points = new Dictionary<string, object>
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var key = Encoding.ASCII.GetBytes("CamiloOrregoKeyTokenInsurancePolices");
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                { "username", Username },
-                { "expired",  DateTime.Now.AddMinutes(30).ToString("dd/MM/yyyy HH:mm")}
+                Audience = "GAP",
+                Issuer = "GAP",
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim("Username", Username)
+                }),
+                Expires = DateTime.UtcNow.AddSeconds(30),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
-
-            //var  a = DateTime.Parse(points["Expired"].ToString());
-
-            var json = Serializer.Serialize(points);
-            return Decoder.Encode(json);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
 

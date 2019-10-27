@@ -28,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Insurance.Policies.Domain\Insurance.Policies.Domain.csproj" />
     <ProjectReference Include="..\Insurance.Policies.Infraestructure\Insurance.Policies.Infraestructure.csproj" />
+    <ProjectReference Include="..\Insurance.Policies.Utilities\Insurance.Policies.Utilities.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
