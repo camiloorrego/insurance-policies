@@ -18,9 +18,10 @@ namespace Insurance.Policies.Infraestructure.Repositories
 
 
 
-        public Task<User> GetUserByUsername(string username)
+        public async Task<User> GetUserByUsername(string username)
         {
-            throw new NotImplementedException();
+            return await _db.GetFistAsync<User>("SELECT [UserId],[Username],[Password],[CreateDate] FROM [dbo].[Users]WHERE [Username] = @Username", new { Username= username });
+
         }
     }
 }

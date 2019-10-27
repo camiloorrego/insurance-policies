@@ -48,6 +48,13 @@ CREATE TABLE [Users] (
 )
 GO
 
+CREATE TABLE [Rules] (
+  [RuleId] int PRIMARY KEY IDENTITY(1, 1),
+  [RiskTypeId] int,
+  [Value] decimal(18,2)
+)
+GO
+
 ALTER TABLE [Polices] ADD FOREIGN KEY ([PolicyType]) REFERENCES [PolicyTypes] ([PolicyTypeId])
 GO
 
@@ -64,4 +71,7 @@ ALTER TABLE [ClientsPolices] ADD FOREIGN KEY ([PoliceId]) REFERENCES [Polices] (
 GO
 
 ALTER TABLE [ClientsPolices] ADD FOREIGN KEY ([UserId]) REFERENCES [Users] ([UserId])
+GO
+
+ALTER TABLE [Rules] ADD FOREIGN KEY ([RiskTypeId]) REFERENCES [RiskTypes] ([RiskTypeId])
 GO

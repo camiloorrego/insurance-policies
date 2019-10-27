@@ -1,6 +1,6 @@
 ﻿using Dapper;
+using Insurance.Policies.Infraestructure.Factories;
 using Insurance.Policies.Infraestructure.Interfaces;
-using Insurance.Policies.Infraestructure.Migration;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -15,7 +15,6 @@ namespace Insurance.Policies.Infraestructure.Repositories.Base
         public Db()
         {
             Connection = new SqlConnection("Server=tcp:camiloserver.database.windows.net,1433;Initial Catalog=insurancepoliciesdb;Persist Security Info=False;User ID=camilo.orrego;Password=Satrack2020*;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-            Migrate();
         }
 
         public async Task<T> CommandAsync<T>(Func<SqlConnection, SqlTransaction, int, Task<T>> command)
@@ -61,6 +60,15 @@ namespace Insurance.Policies.Infraestructure.Repositories.Base
             });
         }
 
+        public async Task<T> GetFistAsync<T>(string sql, object parameters)
+        {
+            return await CommandAsync(async (conn, trn, timeout) =>
+            {
+                T result = await conn.QueryFirstOrDefaultAsync<T>(sql, parameters, trn, timeout);
+                return result;
+            });
+        }
+
         public async Task<T> GetAsync<T>(string sql, object parameters)
         {
             return await CommandAsync(async (conn, trn, timeout) =>
@@ -79,17 +87,18 @@ namespace Insurance.Policies.Infraestructure.Repositories.Base
             });
         }
 
-        private void Migrate()
+        public void MigrateDataBase()
         {
             try
             {
                 var migrater = MigrationFactory.Build(Connection);
                 migrater.ExecuteCommand();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
         }
+
     }
 }

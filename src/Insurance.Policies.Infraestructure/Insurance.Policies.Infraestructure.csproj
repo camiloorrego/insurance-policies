@@ -27,20 +27,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="Migration\Scripts\V1_0_1__create_tables.sql" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Migration\Scripts\*.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Migration\Scripts\V1_0_1__create_tables.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

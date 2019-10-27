@@ -1,4 +1,5 @@
 ﻿using Insurance.Policies.Domain.Entities;
+using Insurance.Policies.Domain.Exceptions;
 using Insurance.Policies.Domain.Interfaces;
 using Insurance.Policies.Utilities;
 using System.Threading.Tasks;
@@ -18,12 +19,12 @@ namespace Insurance.Policies.Domain.Services
 
             if (user == null)
             {
-                return null;
+                throw new UserNotFoundException($"User {username} not found");
             }
 
             if (user.Password != Decoder.Encode(password))
             {
-                return null;
+                throw new UserUnAuthException($"Invalid credentials"); ;
             }
 
             return user;

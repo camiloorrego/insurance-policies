@@ -5,7 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 
-namespace Insurance.Policies.Infraestructure.Migration
+namespace Insurance.Policies.Infraestructure.Factories
 {
     internal static class MigrationFactory
     {
