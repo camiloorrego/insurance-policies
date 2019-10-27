@@ -1,5 +1,6 @@
 using Insurance.Policies.Domain.Interfaces;
 using Insurance.Policies.Domain.Services;
+using Insurance.Policies.Domain.Settings;
 using Insurance.Policies.Infraestructure.Interfaces;
 using Insurance.Policies.Infraestructure.Repositories;
 using Insurance.Policies.Infraestructure.Repositories.Base;
@@ -27,6 +28,9 @@ namespace Insurance.Policies
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AppSettings>(Configuration);
+
+
             services.AddScoped<IDb, Db>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -47,8 +51,11 @@ namespace Insurance.Policies
                 .AllowAnyOrigin()
                 .AllowCredentials();
             }));
-            
-            var key = Encoding.ASCII.GetBytes("CamiloOrregoKeyTokenInsurancePolices");
+
+            //var appSettings = appSettingsSection.Get<AppSettings>();
+            //var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+            var key = Encoding.ASCII.GetBytes(Configuration["authSettings:key"]);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -66,8 +73,8 @@ namespace Insurance.Policies
                     ValidateAudience = true,
                     ValidateLifetime= true,
                     ClockSkew = TimeSpan.Zero,
-                    ValidIssuer = "GAP",
-                    ValidAudience = "GAP"
+                    ValidIssuer = Configuration["authSettings:validIssuer"],
+                    ValidAudience = Configuration["authSettings:validAudience"]
 
                 };
             });

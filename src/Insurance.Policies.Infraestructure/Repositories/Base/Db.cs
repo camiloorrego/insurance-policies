@@ -1,6 +1,8 @@
 ﻿using Dapper;
+using Insurance.Policies.Domain.Settings;
 using Insurance.Policies.Infraestructure.Factories;
 using Insurance.Policies.Infraestructure.Interfaces;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -12,9 +14,9 @@ namespace Insurance.Policies.Infraestructure.Repositories.Base
     public class Db : IDb
     {
         public SqlConnection Connection { get; set; }
-        public Db()
+        public Db(IOptions<AppSettings> settings)
         {
-            Connection = new SqlConnection("Server=tcp:camiloserver.database.windows.net,1433;Initial Catalog=insurancepoliciesdb;Persist Security Info=False;User ID=camilo.orrego;Password=Satrack2020*;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            Connection = new SqlConnection(settings.Value.DataBaseSettings.StringConnection);
         }
 
         public async Task<T> CommandAsync<T>(Func<SqlConnection, SqlTransaction, int, Task<T>> command)

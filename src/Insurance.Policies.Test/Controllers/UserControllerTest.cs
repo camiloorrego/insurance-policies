@@ -2,9 +2,13 @@
 using Insurance.Policies.Domain.Entities;
 using Insurance.Policies.Domain.Exceptions;
 using Insurance.Policies.Domain.Interfaces;
+using Insurance.Policies.Domain.Settings;
 using Insurance.Policies.Dto;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Moq;
+using System.IdentityModel.Tokens.Jwt;
 using Xunit;
 
 namespace Insurance.Policies.Test.Controllers
@@ -13,11 +17,21 @@ namespace Insurance.Policies.Test.Controllers
     {
 
         private readonly Mock<IUserService> _userService;
+        private readonly IOptions<AppSettings> _settings;
         private readonly UsersController _usersController;
         public UserControllerTest()
         {
+            _settings = Options.Create(new AppSettings()
+            {
+                AuthSettings = new AuthSettings()
+                {
+                    Key= "KeyC4miloOrregoInsurencePolices",
+                    ValidAudience="GAP",
+                    ValidIssuer="GAP"
+                }
+            });
             _userService = new Mock<IUserService>();
-            _usersController = new UsersController(_userService.Object);
+            _usersController = new UsersController(_userService.Object, _settings);
         }
 
         [Fact]
@@ -36,9 +50,11 @@ namespace Insurance.Policies.Test.Controllers
                 Password = "YWRtaW4="
             };
 
+            var auth = _settings.Value.AuthSettings;
+
             var expected = new CredentialsResponseDto()
             {
-                Token = userExpected.CreateToken()
+                Token = userExpected.CreateToken(auth.Key, auth.ValidAudience, auth.ValidIssuer)
             };
 
             _userService.Setup(x => x.ValidateUser(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(userExpected);
@@ -52,7 +68,6 @@ namespace Insurance.Policies.Test.Controllers
 
             Assert.Equal(expected.Token, (okResult.Value as CredentialsResponseDto).Token);
         }
-
 
         [Fact]
         public async void ValidateLoginNotFound()

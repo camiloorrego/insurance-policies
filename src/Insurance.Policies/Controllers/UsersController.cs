@@ -1,8 +1,10 @@
 ﻿using Insurance.Policies.Domain.Exceptions;
 using Insurance.Policies.Domain.Interfaces;
+using Insurance.Policies.Domain.Settings;
 using Insurance.Policies.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 
@@ -13,10 +15,11 @@ namespace Insurance.Policies.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-
-        public UsersController(IUserService userService)
+        private readonly IOptions<AppSettings> _settings;
+        public UsersController(IUserService userService, IOptions<AppSettings> settings)
         {
             _userService = userService;
+            _settings = settings;
         }
 
         // POST: api/Users
@@ -32,8 +35,14 @@ namespace Insurance.Policies.Controllers
                 }
 
                 var user = await _userService.ValidateUser(value.Username, value.Password);
+                var auth = _settings.Value.AuthSettings;
 
-                return Ok(new CredentialsResponseDto() { Token = user.CreateToken() });
+                var response = new CredentialsResponseDto()
+                {
+                    Token = user.CreateToken(auth.Key, auth.ValidAudience, auth.ValidIssuer)
+                };
+
+                return Ok(response);
             }
             catch (UserNotFoundException e)
             {

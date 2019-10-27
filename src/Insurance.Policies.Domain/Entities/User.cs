@@ -11,21 +11,21 @@ namespace Insurance.Policies.Domain.Entities
         public int UserId { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public string CreateToken()
+        public string CreateToken(string key, string audience, string issuer )
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            var key = Encoding.ASCII.GetBytes("CamiloOrregoKeyTokenInsurancePolices");
+            var keyDecoded = Encoding.ASCII.GetBytes(key);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Audience = "GAP",
-                Issuer = "GAP",
+                Audience = audience,
+                Issuer = issuer,
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim("Username", Username)
                 }),
                 Expires = DateTime.UtcNow.AddSeconds(30),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keyDecoded), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
