@@ -4,6 +4,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { DataProvider } from 'src/app/providers/data.provider';
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { Router } from '@angular/router';
 
 export const MY_FORMATS = {
   parse: {
@@ -42,7 +43,7 @@ export class AddInsurancePolicesComponent implements OnInit {
   filteredCostCentre: Observable<any[]>;
   editData: any = {};
 
-  constructor(private formBuilder: FormBuilder, public dataProvider: DataProvider) {
+  constructor(private formBuilder: FormBuilder, public dataProvider: DataProvider, public router: Router) {
 
   }
 
@@ -52,6 +53,11 @@ export class AddInsurancePolicesComponent implements OnInit {
     setTimeout(() => {
       this.loadData();
     });
+  }
+
+  backPage() {
+    this.router.navigate(['list-insurance-policies']);
+
   }
 
   loadData() {

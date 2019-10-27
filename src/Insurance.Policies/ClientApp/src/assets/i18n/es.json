@@ -29,5 +29,8 @@
     "terms": "Periodos",
     "cost": "Precio",
     "risktype": "Tipo riesgo"
+  },
+  "insurance-policies":{
+    "title":"Lista de pólizas"
   }
 }

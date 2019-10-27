@@ -1,3 +1,4 @@
+using AutoMapper;
 using Insurance.Policies.Domain.Interfaces;
 using Insurance.Policies.Domain.Services;
 using Insurance.Policies.Domain.Settings;
@@ -31,9 +32,18 @@ namespace Insurance.Policies
             services.Configure<AppSettings>(Configuration);
 
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            // Context
             services.AddScoped<IDb, Db>();
+
+            //Services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPolicyService, PolicyService>();
+
+            //Repos
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPolicyRepository, PolicyRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

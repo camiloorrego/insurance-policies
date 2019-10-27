@@ -1,13 +1,12 @@
 <div class="view-add-insurance-policies">
-
-
-
-  <div class="header-container">
-    <div class="header-title">
-      {{'add-insurance-policies.title' | translate}}
+  <div class="header-container" fxLayout="row" fxLayoutAlign="start center">
+    <div>
+      <button class="btn-back" mat-icon-button (click)="backPage()">
+        <mat-icon aria-label="Back">arrow_back</mat-icon>
+      </button>
     </div>
+    <div class="header-title">{{'add-insurance-policies.title' | translate}}</div>
   </div>
-
 
   <form #myForm="ngForm" #formDirective="ngForm" [formGroup]="formAdd" class="form-add">
 
