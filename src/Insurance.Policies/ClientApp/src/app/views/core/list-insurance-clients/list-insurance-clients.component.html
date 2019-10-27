@@ -7,7 +7,7 @@
     <span style="flex: 1 1 auto;"></span>
     <div fxLayoutAlign="center center">
       <button class="button-add" fxHide fxShow.gt-sm mat-flat-button color="primary" (click)="add()">
-        <div>Añadir</div>
+        <div>{{'common.add' | translate}}</div>
       </button>
 
       <button fxHide.gt-sm fxShow mat-icon-button color="primary" (click)="add()">
@@ -29,7 +29,7 @@
             <mat-radio-button value="en">EN</mat-radio-button>
           </mat-radio-group>
         </div>
-        <button mat-menu-item (click)="add()">
+        <button mat-menu-item (click)="addPolicy()">
           <mat-icon>policy</mat-icon>
           <span>{{'insurance-clients.add' | translate}}</span>
         </button>

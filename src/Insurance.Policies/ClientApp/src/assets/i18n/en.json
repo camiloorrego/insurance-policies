@@ -11,7 +11,7 @@
     "accept": "ACEPTAR",
     "match": "Debe seleccionar un registro válido",
     "pattern": "Formato inválido",
-    "add": "Añadir"
+    "add": "Add"
   },
   "error": {
     "credentialsinvalid": "",
@@ -20,7 +20,7 @@
     "common": "No fue posible completar la solicitud"
   },
   "insurance-clients": {
-    "title": "Lista de pólizas de clientes",
+    "title": "Lista pólizas de clientes",
     "add": "Añadir póliza"
   },
   "add-insurance-policies": {
@@ -34,6 +34,6 @@
     "risktype": "Tipo riesgo"
   },
   "insurance-policies": {
-    "title": "Pólizas de seguros"
+    "title": "Lista de pólizas"
   }
 }

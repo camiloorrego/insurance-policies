@@ -1,5 +1,5 @@
 import { BaseService } from 'src/app/services/base.service';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataProvider } from 'src/app/providers/data.provider';
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { valueSelected } from 'src/app/utils/common';
+import { PolicyModel } from 'src/app/models/insurance.model';
 
 export const MY_FORMATS = {
   parse: {
@@ -26,7 +27,6 @@ export const MY_FORMATS = {
   templateUrl: './add-insurance-polices.component.html',
   styleUrls: ['./add-insurance-polices.component.scss'],
   providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
@@ -39,12 +39,15 @@ export class AddInsurancePolicesComponent implements OnInit {
   filteredPolicyTypes: Observable<any[]>;
   filteredRiskTypes: Observable<any[]>;
   editData: any = {};
+  url = '';
 
   constructor(
+    @Inject('BASE_URL') baseUrl: string,
     private formBuilder: FormBuilder,
     public dataProvider: DataProvider,
     public router: Router,
     public baseService: BaseService) {
+    this.url = baseUrl;
   }
 
   ngOnInit() {
@@ -59,8 +62,8 @@ export class AddInsurancePolicesComponent implements OnInit {
   loadData() {
 
     forkJoin(
-      this.baseService.get('https://localhost:44347/api/PolicyTypes', true),
-      this.baseService.get('https://localhost:44347/api/RiskTypes', true),
+      this.baseService.get(`${this.url}api/PolicyTypes`, true),
+      this.baseService.get(`${this.url}api/RiskTypes`, true),
     ).pipe(map((allResponses) => {
       return {
         types: allResponses[0],
@@ -89,7 +92,31 @@ export class AddInsurancePolicesComponent implements OnInit {
 
 
 
+    }, e => {
+      console.log(e);
+
     });
+  }
+
+  add() {
+
+    const body: PolicyModel = {
+      Name: this.f.name.value,
+      Description: this.f.description.value,
+      PolicyTypeId: this.f.policytype.value.id,
+      EffectiveDate: this.f.date.value,
+      Terms: this.f.terms.value,
+      Cost: this.f.cost.value,
+      RiskTypeId: this.f.risktype.value.id,
+    };
+
+    this.baseService.post(body, `${this.url}api/Policies`, true).subscribe((r: any) => {
+      console.log(r);
+
+    }, e => {
+      console.log(e);
+    });
+
   }
 
   createForm() {
@@ -98,7 +125,7 @@ export class AddInsurancePolicesComponent implements OnInit {
       description: ['', Validators.required],
       policytype: ['', Validators.required],
       date: ['', Validators.required],
-      terms: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9]*$/)]) ],
+      terms: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9]*$/)])],
       cost: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9]*$/)])],
       risktype: ['', Validators.required]
     });

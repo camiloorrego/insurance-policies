@@ -41,7 +41,7 @@ namespace Insurance.Policies.Infraestructure.Repositories
                         p.Cost, 
                         p.RiskTypeId, 
                         p.UserId, 
-                        t.Name AS PolicyTypeI, 
+                        t.Name AS PolicyType, 
                         t.Coverage, 
                         r.Name AS RiskType
                         FROM     dbo.Polices p  INNER JOIN
@@ -58,8 +58,8 @@ namespace Insurance.Policies.Infraestructure.Repositories
         {
             policy.UserId = _settings.Value.UserId;
 
-            var sql = @"INSERT INTO dbo.Polices(Name,Description,PolicyTypeId,EffectiveDate,CreateDate,Terms,Cost,RiskTypeId,UserId)
-                        VALUES(@Name, @Description, @PolicyTypeId, @EffectiveDate, @CreateDate, @Terms, @Cost, @RiskTypeId, @UserId)";
+            var sql = @"INSERT INTO dbo.Polices(Name,Description,PolicyTypeId,EffectiveDate,Terms,Cost,RiskTypeId,UserId)
+                        VALUES(@Name, @Description, @PolicyTypeId, @EffectiveDate, @Terms, @Cost, @RiskTypeId, @UserId)";
 
             await _db.ExecuteAsync(sql, policy);
             return true;

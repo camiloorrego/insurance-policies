@@ -1,5 +1,6 @@
+import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatRadioChange } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatRadioChange, DateAdapter } from '@angular/material';
 import { BaseService } from 'src/app/services/base.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataProvider } from 'src/app/providers/data.provider';
@@ -20,7 +21,9 @@ export class ListInsuranceClientsComponent implements OnInit {
     public dialog: MatDialog,
     public router: Router,
     public route: ActivatedRoute,
-    public data: DataProvider
+    public data: DataProvider,
+    public translate: TranslateService,
+    private dateAdapter: DateAdapter<Date>
   ) {
 
   }
@@ -40,12 +43,17 @@ export class ListInsuranceClientsComponent implements OnInit {
   }
 
   changeLan(e: MatRadioChange) {
-    console.log(e);
+    this.translate.use(e.value);
+    this.dateAdapter.setLocale(e.value);
 
   }
 
   add() {
-    this.router.navigate(['add-insurance-policies']);
+    // this.router.navigate(['add-insurance-policies']);
+  }
+
+  addPolicy() {
+    this.router.navigate(['list-insurance-policies']);
   }
 
 }

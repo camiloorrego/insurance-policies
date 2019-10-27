@@ -18,9 +18,9 @@ export class BaseService {
     };
 
     if (setToken) {
-      options.headers.Authentication = `Basic ${this.data.token}`;
-    }
+      options.headers = options.headers.append('Authorization', `Bearer ${this.data.token}`);
 
+    }
 
     return this.http.post(url, body, options);
   }
@@ -34,7 +34,8 @@ export class BaseService {
     };
 
     if (setToken) {
-      options.headers.Authentication = `Basic ${this.data.token}`;
+      options.headers = options.headers.append('Authorization', `Bearer ${this.data.token}`);
+
     }
 
 

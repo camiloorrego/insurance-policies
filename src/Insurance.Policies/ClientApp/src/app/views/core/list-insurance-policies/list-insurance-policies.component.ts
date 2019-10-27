@@ -43,6 +43,11 @@ export class ListInsurancePoliciesComponent implements OnInit {
 
   }
 
+  backPage() {
+    this.router.navigate(['list-insurance-clients']);
+
+  }
+
   add() {
     this.router.navigate(['add-insurance-policies']);
   }
