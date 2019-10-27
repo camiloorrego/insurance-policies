@@ -1,0 +1,16 @@
+{
+  "login": {
+    "title": "¡Hola! Bienvenido de nuevo",
+    "sub-title": "Por favor inicia sesión con tu cuenta."
+  },
+  "common": {
+    "required": "Este campo es requerido",
+    "login": "Iniciar sesión",
+    "user": "Usuario",
+    "password": "Contraseña",
+    "accept": "ACEPTAR"
+  },
+  "error": {
+    "credentialsinvalid": "Usuario y/o contraseña incorrectos"
+  }
+}

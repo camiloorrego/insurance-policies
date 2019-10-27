@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <Content Include="Migration\**\*.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

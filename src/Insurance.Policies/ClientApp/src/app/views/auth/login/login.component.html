@@ -1,0 +1,53 @@
+<div class="view-login">
+  <div class="content-container" fxFlex fxLayout="row">
+    <div fxFlex class="form-login" fxLayout="column" fxLayoutAlign="center center">
+
+      <div class="header-title" fxLayout="column">
+          <img class="logo" src="assets/img/logo-login.png">
+      
+        <div fxLayoutAlign="left left" class="title-1">{{'login.title' | translate}}</div>
+        <div class="title-2">{{'login.sub-title' | translate}}</div>
+      </div>
+      <form autocomplete="off" [formGroup]="form">
+        <div fxLayout="column">
+          <mat-form-field>
+            <input required formControlName="userForm" matInput placeholder="{{'common.user' | translate}}">
+            <mat-error *ngIf="form.controls.userForm.errors?.required">
+              {{'common.required' | translate}}
+            </mat-error>
+      
+          </mat-form-field>
+          <mat-form-field class="field-password">
+            <input matInput formControlName="passwordForm" placeholder="{{'common.password' | translate}}"
+              [type]="hidePassword ? 'password' : 'text'" required>
+            <mat-icon matSuffix class="icon-hide" (click)="hidePassword = !hidePassword">{{!hidePassword ? 'visibility'
+              :
+              'visibility_off'}}</mat-icon>
+            <mat-error *ngIf="form.controls.passwordForm.errors?.required">
+              {{'common.required' | translate}}
+            </mat-error>
+          </mat-form-field>
+
+        </div>
+        <div class="container-error">
+          <div class="error-login" *ngIf="invalid">
+            <div>
+              {{'error.credentialsinvalid' | translate}}<br>
+              {{'common.tryagain' | translate}}
+            </div>
+          </div>
+         
+        </div>
+        <div fxLayout="column" fxLayoutAlign="center left" class="div-button">
+          <button mat-raised-button class="login-button" (click)="login()" [disabled]="form.invalid">
+            <a *ngIf="!isLoading"> {{'common.login' | translate}}</a>
+            <mat-spinner class="spinner" *ngIf="isLoading" [diameter]="24"></mat-spinner>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div fxHide fxShow.gt-sm class="image-login" fxLayoutAlign="center center">
+      <img class="logo" src="assets/img/main-login.png">
+    </div>
+  </div>
+</div>

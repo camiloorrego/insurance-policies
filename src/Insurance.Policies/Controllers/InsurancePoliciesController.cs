@@ -15,10 +15,9 @@ namespace Insurance.Policies.Controllers
     [ApiController]
     public class InsurancePoliciesController : ControllerBase
     {
-        private readonly IOptions<AppSettings> _settings;
-        public InsurancePoliciesController(IOptions<AppSettings> settings)
+        public InsurancePoliciesController()
         {
-            _settings = settings;
+            
         }
         // GET: api/InsurancePolicies
         [HttpGet]
