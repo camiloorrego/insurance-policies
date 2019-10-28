@@ -60,10 +60,11 @@ export class ListInsuranceClientsComponent implements OnInit {
 
     this.baseService.post(items, `${this.url}api/ClientsPolicies/delete`, true).subscribe((r: any) => {
       this.toastr.success(this.traslate.instant('common.deleted'));
+      this.selection.clear();
       this.getRegisters(this.id);
 
     }, e => {
-      this.toastr.error(this.traslate.instant('common.error'));
+      this.toastr.error(this.traslate.instant('error.common'));
     });
   }
 
@@ -83,6 +84,8 @@ export class ListInsuranceClientsComponent implements OnInit {
 
     this.baseService.get(`${this.url}api/ClientsPolicies/${id}`, true).subscribe((r: any) => {
       this.dataSource = new MatTableDataSource(r);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     }, e => console.log(e));
   }
 

@@ -26,7 +26,7 @@
     "common": "No fue posible completar la solicitud."
   },
   "insurance-clients": {
-    "title": "Lista de pólizas de clientes",
+    "title": "Pólizas de clientes",
     "add": "Añadir póliza",
     "clients": "Clientes",
     "client": "Cliente",

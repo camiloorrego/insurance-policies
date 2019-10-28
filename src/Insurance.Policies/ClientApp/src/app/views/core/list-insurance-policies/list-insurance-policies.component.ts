@@ -57,7 +57,7 @@ export class ListInsurancePoliciesComponent implements OnInit {
       this.getPolicies();
 
     }, e => {
-      this.toastr.error(this.traslate.instant('common.error'));
+      this.toastr.error(this.traslate.instant('error.common'));
     });
   }
 

@@ -25,7 +25,7 @@ namespace Insurance.Policies.Infraestructure.Repositories
 
         public async Task<bool> Delete(List<int> id)
         {
-            await _db.ExecuteAsync("SELECT  dbo.ClientsPolices WHERE Id IN @ids", new { ids = id.ToArray() });
+            await _db.ExecuteAsync("delete  dbo.ClientsPolices WHERE Id IN @ids", new { ids = id.ToArray() });
             return true;
         }
 
