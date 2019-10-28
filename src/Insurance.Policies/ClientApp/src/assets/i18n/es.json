@@ -23,7 +23,8 @@
     "U404": "Usuario no existe.",
     "U401": "Usuario y contraseña incorrectos.",
     "P409": "El registro no supero la validación.",
-    "common": "No fue posible completar la solicitud."
+    "common": "No fue posible completar la solicitud.",
+    "sessionexpired": "La sesión cadudo. Ingrese nuevamente"
   },
   "insurance-clients": {
     "title": "Pólizas de clientes",

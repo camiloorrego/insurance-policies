@@ -29,4 +29,13 @@ export class DataProvider {
   set token(value: any) {
     sessionStorage.setItem(`TOKEN`, JSON.stringify(value));
   }
+
+  get lan(): any {
+    const value = JSON.parse(sessionStorage.getItem(`LAN`));
+    return value || null;
+  }
+
+  set lan(value: any) {
+    sessionStorage.setItem(`LAN`, JSON.stringify(value));
+  }
 }

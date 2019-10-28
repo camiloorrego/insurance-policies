@@ -1,39 +1,60 @@
 {
   "login": {
-    "title": "¡Hola! Bienvenido de nuevo",
-    "sub-title": "Por favor inicia sesión con tu cuenta."
+    "title": "Hi! Welcome again",
+    "sub-title": "Please login with you account."
   },
   "common": {
-    "required": "Este campo es requerido",
-    "login": "Iniciar sesión",
-    "user": "Usuario",
-    "password": "Contraseña",
-    "accept": "ACEPTAR",
-    "match": "Debe seleccionar un registro válido",
-    "pattern": "Formato inválido",
-    "add": "Add"
+    "required": "This field is required",
+    "login": "Login",
+    "user": "User",
+    "password": "Password",
+    "accept": "ACCEPT",
+    "match": "You must select a valid record",
+    "pattern": "Invalid format",
+    "add": "Add",
+    "delete": "Delete",
+    "coverage": "Coverage",
+    "confirm": "Are you sure?",
+    "saved": "Save completed",
+    "deleted": "Delete completed"
   },
   "error": {
     "credentialsinvalid": "",
-    "U404": "Usuario no existe",
-    "U401": "Usuario y contraseña incorrectos",
-    "common": "No fue posible completar la solicitud"
+    "U404": "User not exists.",
+    "U401": "User and password invalid.",
+    "P409": "Registry did not pass validation.",
+    "common": "It was not possible to complete the request."
   },
   "insurance-clients": {
-    "title": "Lista pólizas de clientes",
-    "add": "Añadir póliza"
+    "title": "Customer policies",
+    "add": "Add policy",
+    "clients": "Clients",
+    "client": "Client",
+    "policy": "Policy",
+    "description": "Description"
   },
   "add-insurance-policies": {
-    "title": "Añadir pólizas",
-    "name": "Nombre",
-    "description": "Descripción",
-    "policytype": "Tipo póliza",
-    "date": "Fecha vigencia",
-    "terms": "Periodos",
-    "cost": "Precio",
-    "risktype": "Tipo riesgo"
+    "title": "Add policy",
+    "name": "Name",
+    "description": "Description",
+    "policytype": "Policy type",
+    "date": "Effective date",
+    "terms": "Terms",
+    "cost": "Cost",
+    "risktype": "Risk type"
   },
   "insurance-policies": {
-    "title": "Lista de pólizas"
+    "title": "Insurance policies",
+    "name": "Name",
+    "description": "Description",
+    "policytype": "Policy type",
+    "date": "Effective date",
+    "terms": "Terms",
+    "cost": "Cost",
+    "risktype": "Risk type",
+    "coverage": "Coverage"
+  },
+  "add-insurance-clients": {
+    "title": "Add registry"
   }
 }

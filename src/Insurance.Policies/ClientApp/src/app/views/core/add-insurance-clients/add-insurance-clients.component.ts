@@ -4,6 +4,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-insurance-clients',
@@ -22,7 +23,8 @@ export class AddInsuranceClientsComponent implements OnInit {
     @Inject('BASE_URL') baseUrl: string,
     public baseService: BaseService,
     public toastr: ToastrService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    public router: Router
   ) {
     this.id = params.id;
     this.data = params.data;
@@ -44,7 +46,14 @@ export class AddInsuranceClientsComponent implements OnInit {
       this.toastr.success(this.translate.instant('common.saved'));
       this.dialogRef.close(true);
 
-    }, e => console.log(e));
+    }, e => {
+      if (e.status === 401) {
+        this.toastr.error(this.translate.instant('error.sessionexpired'));
+        this.router.navigate(['']);
+        return;
+      }
+      this.toastr.error(this.translate.instant('error.common'));
+    });
   }
 
   getPolicies() {
@@ -59,6 +68,13 @@ export class AddInsuranceClientsComponent implements OnInit {
 
       this.policies = e;
 
-    }, e => console.log(e));
+    }, e => {
+      if (e.status === 401) {
+        this.toastr.error(this.translate.instant('error.sessionexpired'));
+        this.router.navigate(['']);
+        return;
+      }
+      this.toastr.error(this.translate.instant('error.common'));
+    });
   }
 }

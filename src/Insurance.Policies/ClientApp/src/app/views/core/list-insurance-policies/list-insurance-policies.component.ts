@@ -57,6 +57,11 @@ export class ListInsurancePoliciesComponent implements OnInit {
       this.getPolicies();
 
     }, e => {
+      if (e.status === 401) {
+        this.toastr.error(this.traslate.instant('error.sessionexpired'));
+        this.router.navigate(['']);
+        return;
+      }
       this.toastr.error(this.traslate.instant('error.common'));
     });
   }
@@ -73,7 +78,14 @@ export class ListInsurancePoliciesComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
 
-    }, e => console.log(e));
+    }, e => {
+      if (e.status === 401) {
+        this.toastr.error(this.traslate.instant('error.sessionexpired'));
+        this.router.navigate(['']);
+        return;
+      }
+      this.toastr.error(this.traslate.instant('error.common'));
+    });
   }
 
   backPage() {

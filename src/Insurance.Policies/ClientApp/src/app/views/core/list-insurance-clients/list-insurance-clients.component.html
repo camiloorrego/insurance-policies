@@ -35,12 +35,12 @@
       </button>
 
       <mat-menu #menu="matMenu">
-        <!-- <div class="mat-menu-settings" (click)="$event.stopPropagation();">
+        <div class="mat-menu-settings" (click)="$event.stopPropagation();">
           <mat-radio-group color="primary" (change)="changeLan($event)" class="menu-settings" aria-label="Language">
-            <mat-radio-button checked value="es">ES</mat-radio-button>
-            <mat-radio-button value="en">EN</mat-radio-button>
+            <mat-radio-button [checked]="lan==='es'" value="es">ES</mat-radio-button>
+            <mat-radio-button [checked]="lan==='en'" value="en">EN</mat-radio-button>
           </mat-radio-group>
-        </div> -->
+        </div>
         <button mat-menu-item (click)="addPolicy()">
           <mat-icon color="primary">policy</mat-icon>
           <span>{{'insurance-clients.add' | translate}}</span>
@@ -83,16 +83,24 @@
 
       <ng-container matColumnDef="client">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'insurance-clients.client' | translate}} </th>
-        <td mat-cell *matCellDef="let row"> {{row.client}} </td>
+        <td mat-cell *matCellDef="let row"> {{row.client}}
+          <span class="mobile-label">{{'insurance-clients.client' | translate}} </span>
+        </td>
       </ng-container>
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'insurance-clients.policy' | translate}} </th>
-        <td mat-cell *matCellDef="let row"> {{row.policyName}} </td>
+        <td mat-cell *matCellDef="let row"> {{row.policyName}}
+          <span class="mobile-label">{{'insurance-clients.policy' | translate}} </span>
+
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'insurance-clients.description' | translate}} </th>
-        <td mat-cell *matCellDef="let row"> {{row.description | sizeText: 25}} </td>
+        <td mat-cell *matCellDef="let row"> {{row.description | sizeText: 25}}
+          <span class="mobile-label">{{'insurance-clients.description' | translate}} </span>
+
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

@@ -97,7 +97,12 @@ export class AddInsurancePolicesComponent implements OnInit {
         this.setValues();
       }
     }, e => {
-      console.log(e);
+      if (e.status === 401) {
+        this.toastr.error(this.translate.instant('error.sessionexpired'));
+        this.router.navigate(['']);
+        return;
+      }
+      this.toastr.error(this.translate.instant('error.common'));
 
     });
   }
@@ -131,7 +136,15 @@ export class AddInsurancePolicesComponent implements OnInit {
       this.formAdd.reset();
       this.isLoading = false;
 
-    }, e => {
+    }, (e: any) => {
+
+      if (e.status === 401) {
+        this.toastr.error(this.translate.instant('error.sessionexpired'));
+        this.router.navigate(['']);
+        return;
+      }
+
+
       let error: string;
       let message: string;
       if (e.error && e.error.error_code) {

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Insurance.Policies.Domain.Factories
 {
@@ -14,6 +12,9 @@ namespace Insurance.Policies.Domain.Factories
             {
                 case ">":
                     v = x => x > val;
+                    break;
+                case "<":
+                    v = x => x < val;
                     break;
 
 

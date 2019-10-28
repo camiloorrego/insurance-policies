@@ -28,7 +28,7 @@ export class ListInsuranceClientsComponent implements OnInit {
   clients = [];
   id: number;
   selection = new SelectionModel<any>(true, []);
-
+  lan = '';
   constructor(
     public baseService: BaseService,
     public dialog: MatDialog,
@@ -48,6 +48,7 @@ export class ListInsuranceClientsComponent implements OnInit {
   ngOnInit() {
     this.getClients();
     this.id = 0;
+    this.lan = this.data.lan || this.translate.currentLang;
   }
 
   confirm(id: number) {
@@ -64,6 +65,13 @@ export class ListInsuranceClientsComponent implements OnInit {
       this.getRegisters(this.id);
 
     }, e => {
+
+      if (e.status === 401) {
+        this.toastr.error(this.traslate.instant('error.sessionexpired'));
+        this.router.navigate(['']);
+        return;
+      }
+
       this.toastr.error(this.traslate.instant('error.common'));
     });
   }
@@ -77,7 +85,14 @@ export class ListInsuranceClientsComponent implements OnInit {
 
     this.baseService.get(`${this.url}api/clients`, true).subscribe((r: any) => {
       this.clients = r;
-    }, e => console.log(e));
+    }, e => {
+      if (e.status === 401) {
+        this.toastr.error(this.traslate.instant('error.sessionexpired'));
+        this.router.navigate(['']);
+        return;
+      }
+      this.toastr.error(this.traslate.instant('error.common'));
+    });
   }
 
   getRegisters(id: number) {
@@ -86,12 +101,20 @@ export class ListInsuranceClientsComponent implements OnInit {
       this.dataSource = new MatTableDataSource(r);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-    }, e => console.log(e));
+    }, e => {
+      if (e.status === 401) {
+        this.toastr.error(this.traslate.instant('error.sessionexpired'));
+        this.router.navigate(['']);
+        return;
+      }
+      this.toastr.error(this.traslate.instant('error.common'));
+    });
   }
 
   changeLan(e: MatRadioChange) {
     this.translate.use(e.value);
     this.dateAdapter.setLocale(e.value);
+    this.data.lan = e.value;
   }
 
   add() {
