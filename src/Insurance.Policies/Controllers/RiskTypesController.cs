@@ -14,10 +14,10 @@ namespace Insurance.Policies.Controllers
     public class RiskTypesController : ControllerBase
     {
 
-        private readonly IRiskTypeService _riskTypeService;
-        public RiskTypesController(IRiskTypeService riskTypeService)
+        private readonly IRiskTypeRepository _riskTypeRepository;
+        public RiskTypesController(IRiskTypeRepository riskTypeRepository)
         {
-            _riskTypeService = riskTypeService;
+            _riskTypeRepository = riskTypeRepository;
         }
 
         // GET: api/RiskTypes
@@ -26,7 +26,7 @@ namespace Insurance.Policies.Controllers
         {
             try
             {
-                return Ok(await _riskTypeService.GetAll());
+                return Ok(await _riskTypeRepository.GetAll());
             }
             catch (Exception e)
             {

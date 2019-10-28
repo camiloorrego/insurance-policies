@@ -13,12 +13,12 @@ namespace Insurance.Policies.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class PolicyTypesController : ControllerBase
+    public class ClientsController : ControllerBase
     {
-        private readonly IPolicyTypeRepository _policyTypeRepository;
-        public PolicyTypesController(IPolicyTypeRepository policyTypeRepository )
+        private readonly IClientRepository _repository;
+        public ClientsController(IClientRepository repository)
         {
-            _policyTypeRepository = policyTypeRepository;
+            _repository = repository;
         }
         // GET: api/PolicyTypes
         [HttpGet]
@@ -26,7 +26,7 @@ namespace Insurance.Policies.Controllers
         {
             try
             {
-                return Ok(await _policyTypeRepository.GetAll());
+                return Ok(await _repository.GetAll());
             }
             catch (Exception e)
             {

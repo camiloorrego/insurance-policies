@@ -26,7 +26,8 @@
   },
   "insurance-clients": {
     "title": "Lista de pólizas de clientes",
-    "add": "Añadir póliza"
+    "add": "Añadir póliza",
+    "clients": "Clientes"
   },
   "add-insurance-policies": {
     "title": "Añadir pólizas",

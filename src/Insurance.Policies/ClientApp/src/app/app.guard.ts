@@ -16,7 +16,7 @@ export class AppGuard implements CanActivate {
     if (this.auth.hasToken()) {
       return true;
     } else {
-      this.router.navigate(['login']);
+      this.router.navigate(['']);
     }
   }
 }

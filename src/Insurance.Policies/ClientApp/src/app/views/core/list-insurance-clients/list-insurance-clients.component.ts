@@ -1,6 +1,6 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatRadioChange, DateAdapter } from '@angular/material';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatRadioChange, DateAdapter, MatSelectChange } from '@angular/material';
 import { BaseService } from 'src/app/services/base.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataProvider } from 'src/app/providers/data.provider';
@@ -16,6 +16,8 @@ export class ListInsuranceClientsComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  url = '';
+  clients = [];
   constructor(
     public baseService: BaseService,
     public dialog: MatDialog,
@@ -23,23 +25,33 @@ export class ListInsuranceClientsComponent implements OnInit {
     public route: ActivatedRoute,
     public data: DataProvider,
     public translate: TranslateService,
-    private dateAdapter: DateAdapter<Date>
+    private dateAdapter: DateAdapter<Date>,
+    @Inject('BASE_URL') baseUrl: string,
   ) {
-
+    this.url = baseUrl;
   }
 
   ngOnInit() {
-    this.getWfs();
+    this.getClients();
   }
 
-  getWfs() {
+  selected(e: MatSelectChange) {
+    console.log(e);
+    this.getRegisters(e.value);
+  }
 
-    // this.baseService.get(`${environment.urlApi}api/workflows`).subscribe((r: any) => {
-    //   this.dataSource = new MatTableDataSource(r);
-    //   this.dataSource.paginator = this.paginator;
-    //   this.dataSource.sort = this.sort;
+  getClients() {
 
-    // }, e => console.log(e));
+    this.baseService.get(`${this.url}api/clients`, true).subscribe((r: any) => {
+      this.clients = r;
+    }, e => console.log(e));
+  }
+
+  getRegisters(id: number) {
+
+    this.baseService.get(`${this.url}api/ClientsPolicies/${id}`, true).subscribe((r: any) => {
+
+    }, e => console.log(e));
   }
 
   changeLan(e: MatRadioChange) {

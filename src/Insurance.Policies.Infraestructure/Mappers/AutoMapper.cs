@@ -16,6 +16,7 @@ namespace Insurance.Policies.Infraestructure.Mappers
             CreateMap<PolicyType, PolicyTypeDataModel>().ReverseMap();
             CreateMap<RiskType, RiskTypeDataModel>().ReverseMap();
             CreateMap<Rule, RuleDataModel>().ReverseMap();
+            CreateMap<Client, ClientDataModel>().ReverseMap();
         }
     }
 }

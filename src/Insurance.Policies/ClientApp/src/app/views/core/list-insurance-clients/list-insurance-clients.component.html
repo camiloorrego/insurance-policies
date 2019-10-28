@@ -38,6 +38,21 @@
     </div>
   </div>
 
+  <div class="container-form" fxLayout.gt-sm="row" fxLayout="column" fxLayoutAlign="center center">
+    <mat-form-field class="full-width">
+      <mat-label>{{'insurance-clients.clients' | translate}}</mat-label>
+      <mat-select (selectionChange)="selected($event)">
+        <mat-option *ngFor="let item of clients" [value]="item.clientId">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="full-width">
+    </div>
+
+  </div>
+
   <div class="container-table" #scrollOne>
     <table mat-table [dataSource]="dataSource" class="table-insurance-clients" matSort>
 

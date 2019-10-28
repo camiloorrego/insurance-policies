@@ -1,11 +1,13 @@
 ﻿using Insurance.Policies.Domain.Entities;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Insurance.Policies.Domain.Interfaces
 {
-    public interface IPolicyTypeService
+   public interface IClientRepository
     {
-        Task<IEnumerable<PolicyType>> GetAll();
+        Task<IEnumerable<Client>> GetAll();
     }
 }

@@ -41,8 +41,6 @@ namespace Insurance.Policies
             //Services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPolicyService, PolicyService>();
-            services.AddScoped<IPolicyTypeService, PolicyTypeService>();
-            services.AddScoped<IRiskTypeService, RiskTypeService>();
             services.AddScoped<IClientPolicyService, ClientPolicyService>();
 
             //Repos
@@ -52,6 +50,7 @@ namespace Insurance.Policies
             services.AddScoped<IRiskTypeRepository, RiskTypeRepository>();
             services.AddScoped<IRuleRepository, RuleRepository>();
             services.AddScoped<IClientPolicyRepository, ClientPolicyRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
