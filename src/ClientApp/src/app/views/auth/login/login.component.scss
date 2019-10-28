@@ -9,7 +9,7 @@
 
     .logo {
       width: 215px;
-      height: 25px;
+      height: 20px;
       margin-bottom: 30px;
     }
 
@@ -74,11 +74,6 @@
       opacity: 0.7;
       cursor: pointer;
     }
-
-    .mat-progress-spinner circle,
-    .mat-spinner circle {
-      stroke: #ffffff;
-    }
   }
 
   .image-login {
@@ -89,5 +84,9 @@
     background-repeat: 'no-repeat';
     min-height: 600px;
   }
+}
 
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #ffffff !important;
 }
