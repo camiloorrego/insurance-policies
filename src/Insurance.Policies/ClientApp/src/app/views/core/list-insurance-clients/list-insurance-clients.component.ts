@@ -51,11 +51,11 @@ export class ListInsuranceClientsComponent implements OnInit {
     this.lan = this.data.lan || this.translate.currentLang;
   }
 
-  confirm(id: number) {
-    this.dialogService.confirm(this.traslate.instant('common.confirm'), this.delete.bind(this, id), '');
+  confirm() {
+    this.dialogService.confirm(this.traslate.instant('common.confirm'), this.delete.bind(this), '');
   }
 
-  delete(id: number) {
+  delete() {
 
     const items = this.selection.selected.map((item) => item.id);
 

@@ -10,6 +10,15 @@ if (environment.production) {
 }
 
 export function getBaseUrl() {
+
+  let base: any;
+  if (environment.production) {
+    base = environment.url;
+  } else {
+    base = document.getElementsByTagName('base')[0].href;
+  }
+
+
   return document.getElementsByTagName('base')[0].href;
 }
 
