@@ -12,6 +12,7 @@
     "match": "Debe seleccionar un registro válido",
     "pattern": "Formato inválido",
     "add": "Añadir",
+    "delete": "Eliminar",
     "coverage": "Cobertura",
     "confirm": "Esta seguro?",
     "saved": "Registro guardado correctamente",
@@ -27,7 +28,10 @@
   "insurance-clients": {
     "title": "Lista de pólizas de clientes",
     "add": "Añadir póliza",
-    "clients": "Clientes"
+    "clients": "Clientes",
+    "client": "Cliente",
+    "policy": "Póliza",
+    "description": "Descripción"
   },
   "add-insurance-policies": {
     "title": "Añadir pólizas",
@@ -49,5 +53,8 @@
     "cost": "Precio",
     "risktype": "Tipo riesgo",
     "coverage": "Cobertura"
+  },
+  "add-insurance-clients": {
+    "title": "Añadir registro"
   }
 }

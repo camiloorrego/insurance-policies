@@ -12,9 +12,9 @@ namespace Insurance.Policies.Domain.Services
         {
             _clientPolicyRepository = clientPolicyRepository;
         }
-        public Task<bool> Delete(List<int> id)
+        public async Task<bool> Delete(List<int> id)
         {
-            throw new System.NotImplementedException();
+            return await _clientPolicyRepository.Delete(id);
         }
         
         public async Task<IEnumerable<ClientPolicy>> GetByClientId(int id)
@@ -22,9 +22,9 @@ namespace Insurance.Policies.Domain.Services
             return await _clientPolicyRepository.GetByClientId(id);
         }
 
-        public Task<bool> Save(List<ClientPolicy> clientPolicy)
+        public async Task<bool> Save(List<ClientPolicy> clientPolicy)
         {
-            throw new System.NotImplementedException();
+            return await _clientPolicyRepository.Save(clientPolicy);
         }
 
     }

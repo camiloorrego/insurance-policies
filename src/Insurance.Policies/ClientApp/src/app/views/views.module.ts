@@ -11,9 +11,14 @@ import { ListInsuranceClientsComponent } from './core/list-insurance-clients/lis
 import { AddInsurancePolicesComponent } from './core/add-insurance-polices/add-insurance-polices.component';
 import { ListInsurancePoliciesComponent } from './core/list-insurance-policies/list-insurance-policies.component';
 import { ToastrModule } from 'ngx-toastr';
+import { AddInsuranceClientsComponent } from './core/add-insurance-clients/add-insurance-clients.component';
 
 @NgModule({
-  declarations: [LoginComponent, ListInsuranceClientsComponent, AddInsurancePolicesComponent, ListInsurancePoliciesComponent],
+  declarations: [LoginComponent,
+    ListInsuranceClientsComponent,
+    AddInsurancePolicesComponent,
+    ListInsurancePoliciesComponent,
+    AddInsuranceClientsComponent],
   imports: [
     CommonModule,
     FlexLayoutModule,
@@ -28,6 +33,7 @@ import { ToastrModule } from 'ngx-toastr';
       timeOut: 5000
     }),
     AppPipesModule
-  ]
+  ],
+  entryComponents: [AddInsuranceClientsComponent]
 })
 export class ViewsModule { }

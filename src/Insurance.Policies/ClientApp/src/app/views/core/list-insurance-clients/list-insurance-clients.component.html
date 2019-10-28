@@ -6,13 +6,25 @@
     </div>
     <span style="flex: 1 1 auto;"></span>
     <div fxLayoutAlign="center center">
-      <button class="button-add" fxHide fxShow.gt-sm mat-flat-button color="primary" (click)="add()">
+      <button class="button-add" fxHide fxShow.gt-sm mat-flat-button color="primary" [disabled]="id===0"
+        (click)="add()">
         <div>{{'common.add' | translate}}</div>
       </button>
 
-      <button fxHide.gt-sm fxShow mat-icon-button color="primary" (click)="add()">
+      <button class="button-add" fxHide fxShow.gt-sm mat-flat-button color="primary"
+        [disabled]="!selection.selected.length" (click)="confirm()">
+        <div>{{'common.delete' | translate}}</div>
+      </button>
+      <button fxHide.gt-sm fxShow mat-icon-button color="primary" (click)="add()" [disabled]="id===0">
         <div fxLayoutAlign="center center">
           <mat-icon aria-label="add">add</mat-icon>
+        </div>
+      </button>
+
+      <button fxHide.gt-sm fxShow mat-icon-button color="primary" (click)="confirm()"
+        [disabled]="!selection.selected.length">
+        <div fxLayoutAlign="center center">
+          <mat-icon aria-label="add">delete</mat-icon>
         </div>
       </button>
 
@@ -23,14 +35,14 @@
       </button>
 
       <mat-menu #menu="matMenu">
-        <div class="mat-menu-settings" (click)="$event.stopPropagation();">
+        <!-- <div class="mat-menu-settings" (click)="$event.stopPropagation();">
           <mat-radio-group color="primary" (change)="changeLan($event)" class="menu-settings" aria-label="Language">
             <mat-radio-button checked value="es">ES</mat-radio-button>
             <mat-radio-button value="en">EN</mat-radio-button>
           </mat-radio-group>
-        </div>
+        </div> -->
         <button mat-menu-item (click)="addPolicy()">
-          <mat-icon>policy</mat-icon>
+          <mat-icon color="primary">policy</mat-icon>
           <span>{{'insurance-clients.add' | translate}}</span>
         </button>
       </mat-menu>
@@ -56,32 +68,31 @@
   <div class="container-table" #scrollOne>
     <table mat-table [dataSource]="dataSource" class="table-insurance-clients" matSort>
 
-
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Id Work Flow </th>
-        <td mat-cell *matCellDef="let row"> {{row.id}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción WorkFlow </th>
-        <td mat-cell *matCellDef="let row"> {{row.description}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="buttons">
-        <th mat-header-cell *matHeaderCellDef> </th>
-        <td mat-cell *matCellDef="let row; let i = index;" attr.id="button{{i}}">
-          <div class="mat-buttons">
-            <button mat-icon-button [matTooltipPosition]="'above'" [matTooltipClass]="'tooltip-cell'"
-              matTooltip="Detalle" (click)="goDetail(row)">
-              <mat-icon>description</mat-icon>
-            </button>
-
-            <button mat-icon-button [matTooltipPosition]="'above'" [matTooltipClass]="'tooltip-cell'"
-              matTooltip="Eliminar" (click)="confirmDelete(row)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)">
+          </mat-checkbox>
         </td>
+      </ng-container>
+
+      <ng-container matColumnDef="client">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'insurance-clients.client' | translate}} </th>
+        <td mat-cell *matCellDef="let row"> {{row.client}} </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'insurance-clients.policy' | translate}} </th>
+        <td mat-cell *matCellDef="let row"> {{row.policyName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'insurance-clients.description' | translate}} </th>
+        <td mat-cell *matCellDef="let row"> {{row.description | sizeText: 25}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

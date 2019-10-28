@@ -43,7 +43,7 @@ export class ListInsurancePoliciesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getWfs();
+    this.getPolicies();
     this.data.item = null;
   }
 
@@ -54,7 +54,7 @@ export class ListInsurancePoliciesComponent implements OnInit {
   delete(id: number) {
     this.baseService.delete(`${this.url}api/policies/${id}`, true).subscribe((r: any) => {
       this.toastr.success(this.traslate.instant('common.deleted'));
-      this.getWfs();
+      this.getPolicies();
 
     }, e => {
       this.toastr.error(this.traslate.instant('common.error'));
@@ -66,7 +66,7 @@ export class ListInsurancePoliciesComponent implements OnInit {
     this.router.navigate(['add-insurance-policies']);
   }
 
-  getWfs() {
+  getPolicies() {
 
     this.baseService.get(`${this.url}api/policies`, true).subscribe((r: any) => {
       this.dataSource = new MatTableDataSource(r);

@@ -33,7 +33,8 @@ namespace Insurance.Policies.Infraestructure.Repositories
         {
             var sql = @"SELECT cp.Id, c.Name Client, 
                         p.Name AS PolicyName, 
-                        p.Description
+                        p.Description,
+                        p.PoliceId
                         FROM     dbo.ClientsPolices cp INNER JOIN
                         dbo.Clients c ON cp.ClientId = c.ClientId INNER JOIN
                         dbo.Polices p ON cp.PoliceId = p.PoliceId
