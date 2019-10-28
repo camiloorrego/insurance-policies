@@ -1,15 +1,12 @@
 ﻿using Insurance.Policies.Domain.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
+
 using System.Threading.Tasks;
 
 namespace Insurance.Policies.Domain.Interfaces
 {
-   public interface IRiskTypeRepository
+    public interface IRuleRepository
     {
-        Task<IEnumerable<RiskType>> GetAll();
-
-        Task<RiskType> GetById(int id);
+        Task<IEnumerable<Rule>> GetAll();
     }
 }

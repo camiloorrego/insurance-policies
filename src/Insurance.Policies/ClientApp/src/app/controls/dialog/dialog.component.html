@@ -1,0 +1,23 @@
+<div class="dialog">
+  <h2 mat-dialog-title>
+    {{title}}
+  </h2>
+
+  <mat-dialog-content>
+
+    <div *ngIf="isList">
+      <ul>
+          <li *ngFor="let error of list" class="item-error">{{error}} </li>
+      </ul>
+    </div>
+    <div *ngIf="!isList">
+      {{ message }}
+      <pre *ngIf="isMessage2" (click)="selectText('clipboard')"><code id="clipboard">{{ message2 }}</code></pre>
+    </div>
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" style="margin-top: 10px">
+    <button mat-button *ngIf="isConfirm" [mat-dialog-close]="false">CANCELAR</button>
+    <button mat-button color="primary" [mat-dialog-close]="true" tabindex="-1" cdkFocusInitial>ACEPTAR</button>
+  </mat-dialog-actions>
+</div>

@@ -9,5 +9,7 @@ namespace Insurance.Policies.Domain.Interfaces
    public interface IPolicyTypeRepository
     {
         Task<IEnumerable<PolicyType>> GetAll();
+
+        Task<PolicyType> GetById(int id);
     }
 }

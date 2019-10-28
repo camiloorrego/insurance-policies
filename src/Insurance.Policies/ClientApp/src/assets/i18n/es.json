@@ -11,13 +11,18 @@
     "accept": "ACEPTAR",
     "match": "Debe seleccionar un registro válido",
     "pattern": "Formato inválido",
-    "add": "Añadir"
+    "add": "Añadir",
+    "coverage": "Cobertura",
+    "confirm": "Esta seguro?",
+    "saved": "Registro guardado correctamente",
+    "deleted": "Registro eliminado correctamente"
   },
   "error": {
     "credentialsinvalid": "",
-    "U404": "Usuario no existe",
-    "U401": "Usuario y contraseña incorrectos",
-    "common": "No fue posible completar la solicitud"
+    "U404": "Usuario no existe.",
+    "U401": "Usuario y contraseña incorrectos.",
+    "P409": "El registro no supero la validación.",
+    "common": "No fue posible completar la solicitud."
   },
   "insurance-clients": {
     "title": "Lista de pólizas de clientes",
@@ -34,6 +39,14 @@
     "risktype": "Tipo riesgo"
   },
   "insurance-policies": {
-    "title": "Pólizas de seguros"
+    "title": "Pólizas de seguros",
+    "name": "Nombre",
+    "description": "Descripción",
+    "policytype": "Tipo póliza",
+    "date": "Fecha vigencia",
+    "terms": "Periodos",
+    "cost": "Precio",
+    "risktype": "Tipo riesgo",
+    "coverage": "Cobertura"
   }
 }

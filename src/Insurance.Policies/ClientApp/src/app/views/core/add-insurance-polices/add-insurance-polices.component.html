@@ -85,7 +85,7 @@
     </div>
 
     <div class="button-add" fxLayout="row" fxLayoutAlign="end center ">
-      <button mat-raised-button color="primary" (click)="add()" [disabled]="formAdd.invalid">
+      <button mat-raised-button color="primary" (click)="add()" [disabled]="formAdd.invalid || isLoading">
         {{'common.accept' | translate}}</button>
     </div>
 

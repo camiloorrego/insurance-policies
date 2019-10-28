@@ -27,5 +27,7 @@ namespace Insurance.Policies.Infraestructure.DataModels
         public string RiskType { get; set; }
 
         public int UserId { get; set; }
+
+        public decimal Coverage { get; set; }
     }
 }

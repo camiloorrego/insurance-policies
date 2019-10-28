@@ -1,4 +1,5 @@
 ﻿using Insurance.Policies.Domain.Entities;
+using Insurance.Policies.Domain.Exceptions;
 using Insurance.Policies.Domain.Interfaces;
 using Insurance.Policies.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -44,6 +45,10 @@ namespace Insurance.Policies.Controllers
                 }
 
                 return Ok(await _policyService.Save(value));
+            }
+            catch (PolicyInvalidException e)
+            {
+                return Conflict(new ErrorResponseDto() { Code = "P409", Message = e.Message });
             }
             catch (Exception e)
             {

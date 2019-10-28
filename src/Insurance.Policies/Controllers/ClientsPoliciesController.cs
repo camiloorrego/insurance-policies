@@ -1,8 +1,10 @@
-﻿using Insurance.Policies.Domain.Interfaces;
+﻿using Insurance.Policies.Domain.Entities;
+using Insurance.Policies.Domain.Interfaces;
 using Insurance.Policies.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Insurance.Policies.Controllers
@@ -20,12 +22,12 @@ namespace Insurance.Policies.Controllers
         }
 
         // GET: api/ClientsPolicies
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
         {
             try
             {
-                return Ok(await _clientPolicyService.GetAll());
+                return Ok(await _clientPolicyService.GetByClientId(id));
             }
             catch (Exception e)
             {
@@ -36,20 +38,40 @@ namespace Insurance.Policies.Controllers
 
         // POST: api/ClientsPolicies
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] List<ClientPolicy> value)
         {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                return Ok(await _clientPolicyService.Save(value));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new ErrorResponseDto() { Code = "P500", Message = e.Message });
+            }
         }
 
-        // PUT: api/ClientsPolicies/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPost("delete")]
+        public async Task<IActionResult> Delete([FromBody] List<int> value)
         {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                return Ok(await _clientPolicyService.Delete(value));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new ErrorResponseDto() { Code = "P500", Message = e.Message });
+            }
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

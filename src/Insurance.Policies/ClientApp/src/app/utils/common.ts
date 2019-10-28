@@ -16,3 +16,18 @@ export function valueSelected(options: any[], key?: any, valueKey?: any): Valida
       }
   };
 }
+
+export function isEmpty(str: any): boolean {
+    if (str === null) {
+        return true;
+    } else if (str === undefined) {
+        return true;
+    } else if (str.length <= 0) {
+        return true;
+    } else if (typeof str === 'undefined') {
+        return true;
+    } else {
+        return false;
+    }
+}
+

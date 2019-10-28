@@ -11,9 +11,11 @@ namespace Insurance.Policies.Infraestructure.Mappers
     {
         public AutoMapper()
         {
+            CreateMap<ClientPolicy, ClientPolicyDataModel>().ReverseMap();
             CreateMap<Policy, PolicyDataModel>().ReverseMap();
             CreateMap<PolicyType, PolicyTypeDataModel>().ReverseMap();
             CreateMap<RiskType, RiskTypeDataModel>().ReverseMap();
+            CreateMap<Rule, RuleDataModel>().ReverseMap();
         }
     }
 }

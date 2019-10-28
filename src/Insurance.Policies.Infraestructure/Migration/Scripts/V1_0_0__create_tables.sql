@@ -51,6 +51,7 @@ GO
 CREATE TABLE [Rules] (
   [RuleId] int PRIMARY KEY IDENTITY(1, 1),
   [RiskTypeId] int,
+  [Type] varchar(10),
   [Value] decimal(18,2)
 )
 GO
@@ -75,3 +76,4 @@ GO
 
 ALTER TABLE [Rules] ADD FOREIGN KEY ([RiskTypeId]) REFERENCES [RiskTypes] ([RiskTypeId])
 GO
+

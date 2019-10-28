@@ -20,6 +20,7 @@ namespace Insurance.Policies.Domain.Entities
         public int Terms { get; set; }
 
         public decimal Cost { get; set; }
+        public decimal Coverage { get; set; }
 
         public int RiskTypeId { get; set; }
         public string RiskType { get; set; }

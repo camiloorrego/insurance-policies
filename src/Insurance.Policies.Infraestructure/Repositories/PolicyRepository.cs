@@ -65,9 +65,20 @@ namespace Insurance.Policies.Infraestructure.Repositories
             return true;
         }
 
-        public Task<bool> Update(Policy policy)
+        public async Task<bool> Update(Policy policy)
         {
-            throw new NotImplementedException();
+            var sql = @"UPDATE dbo.Polices
+                        SET Name = @Name, 
+                        Description = @Description,
+                        PolicyTypeId = @PolicyTypeId, 
+                        EffectiveDate = @EffectiveDate, 
+                        Terms = @Terms, 
+                        Cost = @Cost, 
+                        RiskTypeId = @RiskTypeId
+                        WHERE PoliceId=@PoliceId";
+
+            await _db.ExecuteAsync(sql, policy);
+            return true;
         }
     }
 }

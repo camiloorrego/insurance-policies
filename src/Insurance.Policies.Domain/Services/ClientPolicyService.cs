@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Insurance.Policies.Domain.Entities;
+﻿using Insurance.Policies.Domain.Entities;
 using Insurance.Policies.Domain.Interfaces;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Insurance.Policies.Domain.Services
 {
@@ -12,24 +12,20 @@ namespace Insurance.Policies.Domain.Services
         {
             _clientPolicyRepository = clientPolicyRepository;
         }
-        public Task<bool> Delete(ClientPolicy clientPolicy)
+        public Task<bool> Delete(List<int> id)
+        {
+            throw new System.NotImplementedException();
+        }
+        
+        public async Task<IEnumerable<ClientPolicy>> GetByClientId(int id)
+        {
+            return await _clientPolicyRepository.GetByClientId(id);
+        }
+
+        public Task<bool> Save(List<ClientPolicy> clientPolicy)
         {
             throw new System.NotImplementedException();
         }
 
-        public async  Task<IEnumerable<ClientPolicy>> GetAll()
-        {
-            return await _clientPolicyRepository.GetAll();
-        }
-
-        public Task<bool> Save(ClientPolicy clientPolicy)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<bool> Update(ClientPolicy clientPolicy)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

@@ -13,14 +13,24 @@ namespace Insurance.Policies.Infraestructure.Repositories.Base
 {
     public class Db : IDb
     {
-        public SqlConnection Connection { get; set; }
+
+        private SqlConnection Connection
+        {
+            get
+            {
+                return new SqlConnection(_settings.Value.DataBaseSettings.StringConnection);
+            }
+        }
+        
+        public IOptions<AppSettings> _settings;
         public Db(IOptions<AppSettings> settings)
         {
-            Connection = new SqlConnection(settings.Value.DataBaseSettings.StringConnection);
+            _settings = settings;
         }
 
         public async Task<T> CommandAsync<T>(Func<SqlConnection, SqlTransaction, int, Task<T>> command)
         {
+
             using (var connection = Connection)
             {
                 await connection.OpenAsync();

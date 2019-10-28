@@ -24,5 +24,12 @@ namespace Insurance.Policies.Infraestructure.Repositories
 
             return _mapper.Map<IEnumerable<PolicyType>>(response);
         }
+
+        public async Task<PolicyType> GetById(int id)
+        {
+            var response = await _db.GetAsync<PolicyTypeDataModel>("SELECT [PolicyTypeId] Id, [Name], [Coverage] FROM[dbo].[PolicyTypes] WHERE [PolicyTypeId]=@Id ", new { Id = id });
+
+            return _mapper.Map<PolicyType>(response);
+        }
     }
 }

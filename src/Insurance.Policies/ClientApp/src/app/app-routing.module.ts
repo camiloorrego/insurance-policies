@@ -4,12 +4,13 @@ import { ListInsuranceClientsComponent } from './views/core/list-insurance-clien
 import { LoginComponent } from './views/auth/login/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AppGuard } from './app.guard';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'list-insurance-clients', component: ListInsuranceClientsComponent },
-  { path: 'add-insurance-policies', component: AddInsurancePolicesComponent },
-  { path: 'list-insurance-policies', component: ListInsurancePoliciesComponent },
+  { path: 'list-insurance-clients', component: ListInsuranceClientsComponent, canActivate: [AppGuard] },
+  { path: 'add-insurance-policies', component: AddInsurancePolicesComponent, canActivate: [AppGuard] },
+  { path: 'list-insurance-policies', component: ListInsurancePoliciesComponent, canActivate: [AppGuard] },
 ];
 
 @NgModule({

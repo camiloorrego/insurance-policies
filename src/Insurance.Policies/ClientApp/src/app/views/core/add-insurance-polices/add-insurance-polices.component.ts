@@ -1,5 +1,6 @@
+import { TranslateService } from '@ngx-translate/core';
 import { BaseService } from 'src/app/services/base.service';
-import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Inject, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataProvider } from 'src/app/providers/data.provider';
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
@@ -9,6 +10,7 @@ import { forkJoin, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { valueSelected } from 'src/app/utils/common';
 import { PolicyModel } from 'src/app/models/insurance.model';
+import { ToastrService } from 'ngx-toastr';
 
 export const MY_FORMATS = {
   parse: {
@@ -31,22 +33,25 @@ export const MY_FORMATS = {
   ]
 })
 export class AddInsurancePolicesComponent implements OnInit {
+  @ViewChild('formDirective') formValues; // Added this
   public formAdd: FormGroup;
   risks = [];
   types = [];
-  minDate: any;
-  onSelectedDate: any;
+  minDate = new Date();
   filteredPolicyTypes: Observable<any[]>;
   filteredRiskTypes: Observable<any[]>;
   editData: any = {};
   url = '';
+  isLoading = false;
 
   constructor(
     @Inject('BASE_URL') baseUrl: string,
     private formBuilder: FormBuilder,
     public dataProvider: DataProvider,
     public router: Router,
-    public baseService: BaseService) {
+    public translate: TranslateService,
+    public baseService: BaseService,
+    public toastr: ToastrService) {
     this.url = baseUrl;
   }
 
@@ -73,8 +78,6 @@ export class AddInsurancePolicesComponent implements OnInit {
       this.risks = response.risks;
       this.types = response.types;
 
-
-
       this.f.policytype.setValidators(Validators.compose([Validators.required, valueSelected(this.types, 'id', 'id')]));
       this.f.risktype.setValidators(Validators.compose([Validators.required, valueSelected(this.risks, 'id', 'id')]));
 
@@ -90,8 +93,9 @@ export class AddInsurancePolicesComponent implements OnInit {
           map(value => this._filterRisks(value))
         );
 
-
-
+      if (this.dataProvider.item) {
+        this.setValues();
+      }
     }, e => {
       console.log(e);
 
@@ -99,6 +103,7 @@ export class AddInsurancePolicesComponent implements OnInit {
   }
 
   add() {
+    this.isLoading = true;
 
     const body: PolicyModel = {
       Name: this.f.name.value,
@@ -110,11 +115,37 @@ export class AddInsurancePolicesComponent implements OnInit {
       RiskTypeId: this.f.risktype.value.id,
     };
 
-    this.baseService.post(body, `${this.url}api/Policies`, true).subscribe((r: any) => {
-      console.log(r);
+    let meth: any;
+
+    if (this.dataProvider.item) {
+      body.PoliceId = this.editData.policeId;
+      meth = this.baseService.put(body, `${this.url}api/Policies`, true);
+    } else {
+      meth = this.baseService.post(body, `${this.url}api/Policies`, true);
+    }
+
+    meth.subscribe((r: any) => {
+
+      this.toastr.success(this.translate.instant('common.saved'));
+      this.formValues.resetForm();
+      this.formAdd.reset();
+      this.isLoading = false;
 
     }, e => {
-      console.log(e);
+      let error: string;
+      let message: string;
+      if (e.error && e.error.error_code) {
+        error = this.translate.instant(`error.${e.error.error_code}`);
+        message = this.translate.instant(`common.coverage`) + ' ' + e.error.error_message;
+      }
+
+      if (error === `error.${e.error.error_code}`) {
+        error = this.translate.instant(`error.common`);
+      }
+
+      this.isLoading = false;
+
+      this.toastr.error(`${error} ${message ? message : ''}`);
     });
 
   }
@@ -135,20 +166,21 @@ export class AddInsurancePolicesComponent implements OnInit {
 
   setValues() {
 
-    // this.editData.date = this.item.daterequest;
-    // this.editData.currency = this.currencies.find((e: any) => e.id === this.item.money);
-    // this.editData.costCentre = this.costCentres.find((e: any) => e.id === this.item.costcenter);
+    this.editData = {};
 
+    const item = this.dataProvider.item;
+    this.editData.policeId = item.policeId;
+    this.editData.policyType = this.types.find((e: any) => e.id === item.policyTypeId);
+    this.editData.riskType = this.risks.find((e: any) => e.id === item.riskTypeId);
 
-    // this.f.date.setValue(new Date(this.editData.date));
+    this.f.date.setValue(new Date(item.effectiveDate));
 
-    // this.f.costcentre.setValue(this.editData.costCentre);
-    // this.f.phone.setValue(this.item.phone);
-    // this.f.request.setValue(this.editData.request);
-    // this.f.concept.setValue(this.editData.indicator);
-    // this.f.currency.setValue(this.editData.currency);
-    // this.f.shoppinggroup.setValue(this.editData.shoppinggroup);
-    // this.f.comment.setValue(this.item.comments);
+    this.f.name.setValue(item.name);
+    this.f.description.setValue(item.description);
+    this.f.policytype.setValue(this.editData.policyType);
+    this.f.terms.setValue(item.terms);
+    this.f.cost.setValue(item.cost);
+    this.f.risktype.setValue(this.editData.riskType);
 
 
 
@@ -161,7 +193,7 @@ export class AddInsurancePolicesComponent implements OnInit {
     if (value && value.id) {
       return this.risks.filter(option => option.id === value.id);
     } else {
-      const filterValue = value.toLowerCase();
+      const filterValue = value ? value.toLowerCase() : '';
       return this.risks.map((item) => {
         item.complete = `${item.id} - ${item.name}`;
         return item;
@@ -173,15 +205,15 @@ export class AddInsurancePolicesComponent implements OnInit {
     if (value && value.id) {
       return this.types.filter(option => option.id === value.id);
     } else {
-      const filterValue = value.toLowerCase();
+      const filterValue = value ? value.toLowerCase() : '';
       return this.types.map((item) => {
-        item.complete = `${item.id} - ${item.name}`;
+        item.complete = `${item.id} - ${item.name} - ${item.coverage}%`;
         return item;
       }).filter(option => option.name.toLowerCase().includes(filterValue)).slice(0, 20);
     }
   }
 
   public displayFn(e?: any): string | undefined {
-    return e ? `${e.id} - ${e.name}` : undefined;
+    return e ? `${e.id} - ${e.name}${e.coverage ? ' - ' + e.coverage + '%' : ''}` : undefined;
   }
 }

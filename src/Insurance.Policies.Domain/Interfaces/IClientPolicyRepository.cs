@@ -6,9 +6,8 @@ namespace Insurance.Policies.Domain.Interfaces
 {
     public interface IClientPolicyRepository
     {
-        Task<IEnumerable<ClientPolicy>> GetAll();
-        Task<bool> Save(ClientPolicy clientPolicy);
-        Task<bool> Update(ClientPolicy clientPolicy);
-        Task<bool> Delete(ClientPolicy clientPolicy);
+        Task<bool> Save(List<ClientPolicy> clientPolicy);
+        Task<bool> Delete(List<int> id);
+        Task<IEnumerable<ClientPolicy>> GetByClientId(int id);
     }
 }

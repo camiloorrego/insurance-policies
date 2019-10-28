@@ -1,3 +1,4 @@
+import { AppPipesModule } from './../modules/app-pipes/app-pipes.module';
 import { AppTranslateModule } from './../modules/app-translate/app-translate.module';
 import { AppAngularMaterialModule } from './../modules/app-angular-material/app-angular-material.module';
 import { NgModule } from '@angular/core';
@@ -9,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ListInsuranceClientsComponent } from './core/list-insurance-clients/list-insurance-clients.component';
 import { AddInsurancePolicesComponent } from './core/add-insurance-polices/add-insurance-polices.component';
 import { ListInsurancePoliciesComponent } from './core/list-insurance-policies/list-insurance-policies.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [LoginComponent, ListInsuranceClientsComponent, AddInsurancePolicesComponent, ListInsurancePoliciesComponent],
@@ -19,7 +21,13 @@ import { ListInsurancePoliciesComponent } from './core/list-insurance-policies/l
     AppTranslateModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      progressBar: true,
+      timeOut: 5000
+    }),
+    AppPipesModule
   ]
 })
 export class ViewsModule { }

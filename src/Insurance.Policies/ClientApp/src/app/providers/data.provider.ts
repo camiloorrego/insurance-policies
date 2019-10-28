@@ -11,4 +11,13 @@ export class DataProvider {
   set token(value: string) {
     this.TOKEN = value;
   }
+
+  get item(): any {
+    const value = JSON.parse(sessionStorage.getItem(`ITEM`));
+    return value || null;
+  }
+
+  set item(value: any) {
+    sessionStorage.setItem(`ITEM`, JSON.stringify(value));
+  }
 }

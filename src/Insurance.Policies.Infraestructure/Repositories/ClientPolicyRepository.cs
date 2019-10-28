@@ -1,59 +1,61 @@
-﻿using Insurance.Policies.Domain.Entities;
+﻿using AutoMapper;
+using Insurance.Policies.Domain.Entities;
 using Insurance.Policies.Domain.Interfaces;
+using Insurance.Policies.Domain.Settings;
 using Insurance.Policies.Infraestructure.DataModels;
 using Insurance.Policies.Infraestructure.Interfaces;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Insurance.Policies.Infraestructure.Repositories
 {
-    class ClientPolicyRepository : IClientPolicyRepository
+    public class ClientPolicyRepository : IClientPolicyRepository
     {
 
+        private readonly IMapper _mapper;
         private readonly IDb _db;
-        public ClientPolicyRepository(IDb db)
+        private readonly IOptions<AppSettings> _settings;
+        public ClientPolicyRepository(IDb db, IMapper mapper, IOptions<AppSettings> settings)
         {
             _db = db;
+            _mapper = mapper;
+            _settings = settings;
         }
 
-        public Task<bool> Delete(ClientPolicy clientPolicy)
+        public async Task<bool> Delete(List<int> id)
         {
-            throw new System.NotImplementedException();
+            await _db.ExecuteAsync("SELECT  dbo.ClientsPolices WHERE Id IN @ids", new { ids = id.ToArray() });
+            return true;
         }
 
-        public async Task<IEnumerable<ClientPolicy>> GetAll()
+        public async Task<IEnumerable<ClientPolicy>> GetByClientId(int id)
         {
-            var sql = @"SELECT 
-                        cp.Id,
-                        dbo.Clients.Name AS ClientName, 
-                        cp.PoliceId, 
-                        cp.CreateDate, 
-                        dbo.Polices.Name, 
-                        dbo.Polices.Description,
-                        dbo.PolicyTypes.Name AS PolicyType, 
-                        dbo.RiskTypes.Name AS RiskType, 
-                        dbo.PolicyTypes.Coverage, 
-                        dbo.Polices.Cost
+            var sql = @"SELECT cp.Id, c.Name Client, 
+                        p.Name AS PolicyName, 
+                        p.Description
                         FROM     dbo.ClientsPolices cp INNER JOIN
-                        dbo.Clients ON cp.ClientId = dbo.Clients.ClientId INNER JOIN
-                        dbo.Polices ON cp.PoliceId = dbo.Polices.PoliceId INNER JOIN
-                        dbo.PolicyTypes ON dbo.Polices.PolicyTypeId = dbo.PolicyTypes.PolicyTypeId INNER JOIN
-                        dbo.RiskTypes ON dbo.Polices.RiskTypeId = dbo.RiskTypes.RiskTypeId";
+                        dbo.Clients c ON cp.ClientId = c.ClientId INNER JOIN
+                        dbo.Polices p ON cp.PoliceId = p.PoliceId
+                        WHERE cp.ClientId=@Id";
 
 
-            var response = await _db.SelectAsync<ClientPolicyDataModel>(sql, new { });
+            var response = await _db.SelectAsync<ClientPolicyDataModel>(sql, new { Id = id });
 
-            return null;
+            return _mapper.Map<IEnumerable<ClientPolicy>>(response); ;
         }
 
-        public Task<bool> Save(ClientPolicy clientPolicy)
+        public async Task<bool> Save(List<ClientPolicy> clientPolicy)
         {
-            throw new System.NotImplementedException();
-        }
+            var b = "INSERT INTO dbo.ClientsPolices (ClientId ,PoliceId ,UserId) VALUES ({0} ,{1},{2});";
+            var sql = "";
+            foreach (var item in clientPolicy)
+            {
+                sql += string.Format(b, item.ClientId, item.PoliceId, _settings.Value.UserId);
+            }
 
-        public Task<bool> Update(ClientPolicy clientPolicy)
-        {
-            throw new System.NotImplementedException();
+            await _db.ExecuteAsync(sql, new { });
+            return true;
         }
     }
 }
