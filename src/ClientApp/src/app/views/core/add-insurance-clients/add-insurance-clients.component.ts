@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { DataProvider } from 'src/app/providers/data.provider';
 
 @Component({
   selector: 'app-add-insurance-clients',
@@ -24,7 +25,8 @@ export class AddInsuranceClientsComponent implements OnInit {
     public baseService: BaseService,
     public toastr: ToastrService,
     public translate: TranslateService,
-    public router: Router
+    public router: Router,
+    public dataProvider: DataProvider
   ) {
     this.id = params.id;
     this.data = params.data;
@@ -49,6 +51,7 @@ export class AddInsuranceClientsComponent implements OnInit {
     }, e => {
       if (e.status === 401) {
         this.toastr.error(this.translate.instant('error.sessionexpired'));
+        this.dataProvider.token = null;
         this.router.navigate(['']);
         return;
       }
@@ -71,6 +74,7 @@ export class AddInsuranceClientsComponent implements OnInit {
     }, e => {
       if (e.status === 401) {
         this.toastr.error(this.translate.instant('error.sessionexpired'));
+        this.dataProvider.token = null;
         this.router.navigate(['']);
         return;
       }

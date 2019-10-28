@@ -32,6 +32,10 @@ export class LoginComponent implements OnInit {
       userForm: new FormControl('', Validators.required),
       passwordForm: new FormControl('', Validators.required)
     });
+
+    if (this.dataProvider.token) {
+      this.router.navigate(['list-insurance-clients']);
+    }
   }
 
   login() {

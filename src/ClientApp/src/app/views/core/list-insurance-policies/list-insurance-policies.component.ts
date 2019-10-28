@@ -59,6 +59,7 @@ export class ListInsurancePoliciesComponent implements OnInit {
     }, e => {
       if (e.status === 401) {
         this.toastr.error(this.traslate.instant('error.sessionexpired'));
+        this.data.token = null;
         this.router.navigate(['']);
         return;
       }
@@ -81,6 +82,7 @@ export class ListInsurancePoliciesComponent implements OnInit {
     }, e => {
       if (e.status === 401) {
         this.toastr.error(this.traslate.instant('error.sessionexpired'));
+        this.data.token = null;
         this.router.navigate(['']);
         return;
       }

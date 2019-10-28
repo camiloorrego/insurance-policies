@@ -32,7 +32,8 @@
     "clients": "Clientes",
     "client": "Cliente",
     "policy": "Póliza",
-    "description": "Descripción"
+    "description": "Descripción",
+    "logout": "Cerrar sesión"
   },
   "add-insurance-policies": {
     "title": "Añadir pólizas",

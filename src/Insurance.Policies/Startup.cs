@@ -1,3 +1,8 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using Insurance.Policies.Domain.Interfaces;
 using Insurance.Policies.Domain.Services;
@@ -8,14 +13,13 @@ using Insurance.Policies.Infraestructure.Repositories.Base;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Text;
 
 namespace Insurance.Policies
 {
@@ -28,6 +32,7 @@ namespace Insurance.Policies
 
         public IConfiguration Configuration { get; }
 
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppSettings>(Configuration);
@@ -38,12 +43,12 @@ namespace Insurance.Policies
             // Context
             services.AddScoped<IDb, Db>();
 
-            //Services
+            ////Services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPolicyService, PolicyService>();
             services.AddScoped<IClientPolicyService, ClientPolicyService>();
 
-            //Repos
+            ////Repos
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPolicyRepository, PolicyRepository>();
             services.AddScoped<IPolicyTypeRepository, PolicyTypeRepository>();
@@ -53,12 +58,6 @@ namespace Insurance.Policies
             services.AddScoped<IClientRepository, ClientRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
 
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {
@@ -116,39 +115,16 @@ namespace Insurance.Policies
             }
             else
             {
-                app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            
             app.UseCors("CorsPolicy");
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
-
             app.UseAuthentication();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-            });
+            app.UseHttpsRedirection();
+            app.UseMvc();
 
             db.MigrateDataBase();
-
-            app.UseSpa(spa =>
-            {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
-            });
         }
     }
 }

@@ -99,6 +99,7 @@ export class AddInsurancePolicesComponent implements OnInit {
     }, e => {
       if (e.status === 401) {
         this.toastr.error(this.translate.instant('error.sessionexpired'));
+        this.dataProvider.token = null;
         this.router.navigate(['']);
         return;
       }
@@ -140,6 +141,7 @@ export class AddInsurancePolicesComponent implements OnInit {
 
       if (e.status === 401) {
         this.toastr.error(this.translate.instant('error.sessionexpired'));
+        this.dataProvider.token = null;
         this.router.navigate(['']);
         return;
       }

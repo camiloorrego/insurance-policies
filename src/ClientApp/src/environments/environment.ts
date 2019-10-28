@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: ''
+  url: 'http://app-in.azurewebsites.net/'
 };
 
 /*

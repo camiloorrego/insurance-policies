@@ -16,7 +16,8 @@
     "coverage": "Coverage",
     "confirm": "Are you sure?",
     "saved": "Save completed",
-    "deleted": "Delete completed"
+    "deleted": "Delete completed",
+    "logout": "Logout"
   },
   "error": {
     "credentialsinvalid": "",

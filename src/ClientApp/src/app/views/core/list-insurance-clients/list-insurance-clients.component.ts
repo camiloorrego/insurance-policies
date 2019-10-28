@@ -68,6 +68,7 @@ export class ListInsuranceClientsComponent implements OnInit {
 
       if (e.status === 401) {
         this.toastr.error(this.traslate.instant('error.sessionexpired'));
+        this.data.token = null;
         this.router.navigate(['']);
         return;
       }
@@ -88,6 +89,7 @@ export class ListInsuranceClientsComponent implements OnInit {
     }, e => {
       if (e.status === 401) {
         this.toastr.error(this.traslate.instant('error.sessionexpired'));
+        this.data.token = null;
         this.router.navigate(['']);
         return;
       }
@@ -104,11 +106,17 @@ export class ListInsuranceClientsComponent implements OnInit {
     }, e => {
       if (e.status === 401) {
         this.toastr.error(this.traslate.instant('error.sessionexpired'));
+        this.data.token = null;
         this.router.navigate(['']);
         return;
       }
       this.toastr.error(this.traslate.instant('error.common'));
     });
+  }
+
+  logout() {
+    this.data.token = null;
+    this.router.navigate(['']);
   }
 
   changeLan(e: MatRadioChange) {

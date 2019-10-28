@@ -54,7 +54,7 @@ namespace Insurance.Policies.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, new ErrorResponseDto() { Code = "U500", Message = e.Message });
+                return StatusCode(500, new ErrorResponseDto() { Code = "U500", Message = e.Message, Exp= e });
             }
         }
 

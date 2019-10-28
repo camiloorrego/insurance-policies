@@ -5,9 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Evolve\**" />
-    <EmbeddedResource Remove="Evolve\**" />
-    <None Remove="Evolve\**" />
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Dapper" Version="2.0.30" />
+    <PackageReference Include="Evolve" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,18 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Dapper" Version="2.0.30" />
-    <PackageReference Include="Evolve" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Migration\**\*.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  
 </Project>
