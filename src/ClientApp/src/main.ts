@@ -24,7 +24,6 @@ const providers = [
   { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
 ];
 
-platformBrowserDynamic(providers).bootstrapModule(AppModule, {
-  defaultEncapsulation: ViewEncapsulation.None
-})
+
+platformBrowserDynamic(providers).bootstrapModule(AppModule)
   .catch(err => console.error(err));

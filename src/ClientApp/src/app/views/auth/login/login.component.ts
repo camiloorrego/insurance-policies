@@ -1,10 +1,9 @@
 import { BaseService } from './../../../services/base.service';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DataProvider } from 'src/app/providers/data.provider';
-import { ViewEncapsulation } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'app-login',
